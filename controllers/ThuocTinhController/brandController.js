@@ -2,12 +2,10 @@ const axios = require("axios");
 
 const API_BASE_URL = "http://localhost:1234/api/Milkbrand";
 
-// Get token from localStorage in AngularJS, and attach it to requests in Node.js
 const getAuthToken = (req) => {
-  return req.session.token; // Use the session token stored during login
+  return req.session.token;
 };
 
-// Get all brands
 const getAllBrands = async (req, res) => {
   const token = getAuthToken(req);
 
@@ -24,7 +22,6 @@ const getAllBrands = async (req, res) => {
   }
 };
 
-// Get brand by ID
 const getBrandById = async (req, res) => {
   const { id } = req.params;
   const token = getAuthToken(req);
