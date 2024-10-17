@@ -31,7 +31,7 @@ const handleLogin = async (req, res) => {
       const userInfo = parseJwt(response.data.token);
       req.session.userInfo = userInfo;
 
-      return res.json({ token: response.data.token, userInfo });
+      return res.redirect("/");
     } else {
       return res.status(401).json({
         error:

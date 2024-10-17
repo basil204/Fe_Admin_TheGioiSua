@@ -89,39 +89,6 @@
   <script src="vendor/select2/select2.min.js"></script>
   <script src="/js/showpassword.js"></script>
 
-  <!-- Script for storing token in localStorage -->
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // Ngăn chặn hành động mặc định của form
-      const formData = new FormData(this);
-      const data = {
-        username: formData.get('username'),
-        password: formData.get('password')
-      };
-
-      fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('userInfo', JSON.stringify(data.userInfo));
-          window.location.href = '/'; // Chuyển hướng sau khi đăng nhập thành công
-        } else {
-          swal("Lỗi!", "Đăng nhập không thành công. Vui lòng thử lại.", "error");
-        }
-      })
-      .catch(error => {
-        console.error("Đã xảy ra lỗi trong quá trình đăng nhập:", error);
-        swal("Lỗi!", "Đăng nhập không thành công. Vui lòng thử lại.", "error");
-      });
-    });
-  </script>
 </body>
 
 </html>
