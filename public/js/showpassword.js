@@ -17,15 +17,20 @@ $(".click-eye").click(function () {
   }
 });
 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-if (userInfo) {
-  document.querySelector(".app-sidebar__user-name").textContent = userInfo.role;
-} else {
-  window.location.href = "/login";
-}
+document.querySelector(".app-sidebar__user-name").textContent = userInfo.role;
+document
+  .getElementById("logoutButton")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  });
+
 document
   .getElementById("loginForm")
   .addEventListener("submit", function (event) {
-    event.preventDefault(); // Ngăn chặn hành động mặc định của form
+    event.preventDefault();
     const formData = new FormData(this);
     const data = {
       username: formData.get("username"),
@@ -44,17 +49,22 @@ document
         if (data.token) {
           localStorage.setItem("token", data.token);
           localStorage.setItem("userInfo", JSON.stringify(data.userInfo));
-          window.location.href = "/"; // Chuyển hướng sau khi đăng nhập thành công
+          window.location.href = "/";
         } else {
-          swal(
-            "Lỗi!",
-            "Đăng nhập không thành công. Vui lòng thử lại.",
-            "error"
-          );
+          const errorMessage =
+            data.errorMessage ||
+            "Đăng nhập không thành công. Vui lòng thử lại.";
+          swal("Lỗi!", errorMessage, "error");
+
+          document.querySelector(".thoong-bao-loi").textContent = errorMessage;
         }
       })
       .catch((error) => {
-        console.error("Đã xảy ra lỗi trong quá trình đăng nhập:", error);
+        // console.error("Đã xảy ra lỗi trong quá trình đăng nhập:", error);
         swal("Lỗi!", "Đăng nhập không thành công. Vui lòng thử lại.", "error");
+
+        // Optionally update the error span directly
+        document.querySelector(".thoong-bao-loi").textContent =
+          "Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại.";
       });
   });

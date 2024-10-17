@@ -120,23 +120,27 @@
     data-backdrop="static" data-keyboard="false" ng-app="myApp" ng-controller="BrandController">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <span class="thong-tin-thanh-toan">
-                            <h5>Thêm mới thương hiệu</h5>
-                        </span>
-                    </div>
-                    <div class="form-group col-md-12">
-                        <label class="control-label">Nhập tên thương hiệu mới</label>
-                        <input class="form-control" type="text" ng-model="formData.milkbrandname" required>
-                    </div>
-                    <div class="form-group col-md-12">
-                        <label class="control-label">Thêm mô tả thương hiệu</label>
-                        <input class="form-control" type="text" ng-model="formData.description" required>
-                    </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="form-group col-md-12">
+                <span class="thong-tin-thanh-toan">
+                  <h5>Thêm mới thương hiệu</h5>
+                </span>
+              </div>
+              <div ng-if="notification.message" class="form-group col-md-12">
+                <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
+                  {{ notification.message }}
                 </div>
-
+              </div>
+              <div class="form-group col-md-12">
+                <label class="control-label">Nhập tên thương hiệu mới</label>
+                <input class="form-control" type="text" ng-model="formData.milkbrandname" required>
+              </div>
+              <div class="form-group col-md-12">
+                <label class="control-label">Thêm mô tả thương hiệu</label>
+                <input class="form-control" type="text" ng-model="formData.description" required>
+              </div>
+            </div>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
@@ -194,7 +198,7 @@
                                         <td>{{ brand.milkbrandname }}</td>
                                         <td>{{ brand.description }}</td>
                                         <td>
-                                            <a ng-click="deleteBrand(brand.id)" class="btn btn-success" role="button" aria-pressed="true">Khôi phục</a>
+                                            <a ng-click="RollbackBrand(brand.id)" class="btn btn-success" role="button" aria-pressed="true">Khôi phục</a>
                                         </td>
                                     </tr>
                                 </tbody>

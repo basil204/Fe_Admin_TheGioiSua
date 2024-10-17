@@ -1,5 +1,4 @@
 var app = angular.module("myApp", ["ngRoute"]);
-
 app.controller("BrandController", function ($scope, $http, $location) {
   const token = localStorage.getItem("token");
   const API_BASE_URL = "http://localhost:3000/api/brand";
@@ -7,8 +6,22 @@ app.controller("BrandController", function ($scope, $http, $location) {
   $scope.brands = [];
   $scope.deletedBrands = [];
   $scope.formData = {};
+  $scope.notification = { message: "", type: "" };
 
-  // Function to fetch all active brands
+  $scope.showNotification = function (message, type) {
+    $scope.notification.message = message;
+    $scope.notification.type = type;
+    setTimeout(() => {
+      $scope.clearNotification();
+      $scope.$apply();
+    }, 3000);
+  };
+
+  $scope.clearNotification = function () {
+    $scope.notification.message = "";
+    $scope.notification.type = "";
+  };
+
   $scope.getBrands = function () {
     $http({
       method: "GET",
@@ -18,12 +31,12 @@ app.controller("BrandController", function ($scope, $http, $location) {
         $scope.brands = response.data.filter((brand) => brand.status === 1);
       },
       function (error) {
+        $scope.showNotification("Không thể tải danh sách thương hiệu", "error");
         handleError(error);
       }
     );
   };
 
-  // Function to fetch all deleted brands
   $scope.getDeletedBrands = function () {
     $http({
       method: "GET",
@@ -35,12 +48,15 @@ app.controller("BrandController", function ($scope, $http, $location) {
         );
       },
       function (error) {
+        $scope.showNotification(
+          "Không thể tải danh sách thương hiệu đã xóa",
+          "error"
+        );
         handleError(error);
       }
     );
   };
 
-  // Function to fetch a single brand by ID
   $scope.getBrandById = function (id) {
     $http({
       method: "GET",
@@ -50,12 +66,12 @@ app.controller("BrandController", function ($scope, $http, $location) {
         $scope.formData = response.data;
       },
       function (error) {
+        $scope.showNotification("Không thể tải dữ liệu thương hiệu", "error");
         handleError(error);
       }
     );
   };
 
-  // Function to delete a brand
   $scope.deleteBrand = function (id) {
     $http({
       method: "DELETE",
@@ -65,17 +81,35 @@ app.controller("BrandController", function ($scope, $http, $location) {
       },
     }).then(
       function () {
-        alert("Brand deleted successfully");
+        $scope.showNotification("Xóa thương hiệu thành công", "success");
         $scope.getBrands();
         $scope.getDeletedBrands();
       },
       function (error) {
+        $scope.showNotification("Không thể xóa thương hiệu", "error");
         handleError(error);
       }
     );
   };
-
-  // Function to add or update a brand
+  $scope.RollbackBrand = function (id) {
+    $http({
+      method: "DELETE",
+      url: `${API_BASE_URL}/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(
+      function () {
+        $scope.showNotification("khôi phục thương hiệu thành công", "success");
+        $scope.getBrands();
+        $scope.getDeletedBrands();
+      },
+      function (error) {
+        $scope.showNotification("Không thể khôi phục thương hiệu", "error");
+        handleError(error);
+      }
+    );
+  };
   $scope.addBrand = function () {
     const isUpdating = !!$scope.formData.id;
     const apiUrl = isUpdating
@@ -99,27 +133,26 @@ app.controller("BrandController", function ($scope, $http, $location) {
 
     request.then(
       function (response) {
-        console.log(
+        $scope.showNotification(
           isUpdating
-            ? "Updated brand successfully"
-            : "Added brand successfully",
-          response.data
+            ? "Cập nhật thương hiệu thành công"
+            : "Thêm thương hiệu mới thành công",
+          "success"
         );
         $scope.getBrands();
         $scope.formData = {};
       },
       function (error) {
+        $scope.showNotification("Không thể thêm/cập nhật thương hiệu", "error");
         handleError(error);
       }
     );
   };
 
-  // Function to reset the form
   $scope.resetForm = function () {
     $scope.formData = {};
   };
 
-  // General error handling function
   function handleError(error) {
     console.error("Error:", error);
     if (error.status === 401) {
@@ -127,7 +160,6 @@ app.controller("BrandController", function ($scope, $http, $location) {
     }
   }
 
-  // Initialize brand list when the controller is loaded
   $scope.getBrands();
   $scope.getDeletedBrands();
 });

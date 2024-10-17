@@ -119,6 +119,13 @@ app.get("/quan-ly-bao-cao", checkLogin, (req, res) => {
   );
   res.send(renderLayout(content));
 });
+app.get("/form-add-don-hang", checkLogin, (req, res) => {
+  const content = fs.readFileSync(
+    path.join(__dirname, "views/form-add-don-hang.html"),
+    "utf-8"
+  );
+  res.send(renderLayout(content));
+});
 
 // Login routes
 app.get("/login", authController.getLoginPage);

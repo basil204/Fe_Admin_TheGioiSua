@@ -56,6 +56,7 @@
                 <i class='bx bx-key'></i>
               </span>
             </div>
+            <span class="thoong-bao-loi" style="color: red;"></span>
 
             <!-- Nút đăng nhập -->
             <div class="container-login100-form-btn">
@@ -70,17 +71,6 @@
             </div>
           </form>
 
-          <!-- Footer -->
-          <div class="text-center p-t-70 txt2">
-            Phần mềm quản lý bán hàng <i class="far fa-copyright" aria-hidden="true"></i>
-            <script type="text/javascript">document.write(new Date().getFullYear());</script> 
-            <a class="txt2" href="https://www.facebook.com/truongvo.vd1503/"> Code bởi Trường </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- JavaScript -->
   <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
   <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -89,6 +79,38 @@
   <script src="vendor/select2/select2.min.js"></script>
   <script src="/js/showpassword.js"></script>
 
+  <!-- Script for storing token in localStorage -->
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Ngăn chặn hành động mặc định của form
+      const formData = new FormData(this);
+      const data = {
+        username: formData.get('username'),
+        password: formData.get('password')
+      };
+
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('userInfo', JSON.stringify(data.userInfo));
+          window.location.href = '/'; // Chuyển hướng sau khi đăng nhập thành công
+        } else {
+          swal("Lỗi!", "Đăng nhập không thành công. Vui lòng thử lại.", "error");
+        }
+      })
+      .catch(error => {
+        swal("Lỗi!", "Đăng nhập không thành công. Vui lòng thử lại.", "error");
+      });
+    });
+  </script>
 </body>
 
 </html>
