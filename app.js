@@ -46,20 +46,16 @@ app.use("/api/Usagecapacity", UsagecapacityRoutes);
 app.use("/api/Userinvoice", UserinvoiceRoutes);
 app.use("/api/Voucher", VoucherRoutes);
 app.use("/", viewRoutes);
-
 // Login routes
 app.get("/login", authController.getLoginPage);
 app.post("/login", authController.handleLogin);
-
 // Logout
 app.get("/logout", (req, res) => {
   req.session.loggedin = false;
   req.session.destroy();
   res.redirect("/login");
 });
-
 app.get("/gettoken", authController.getToken);
-
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
