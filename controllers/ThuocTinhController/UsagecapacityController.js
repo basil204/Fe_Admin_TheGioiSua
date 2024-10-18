@@ -1,14 +1,10 @@
 const axios = require("axios");
 
-const API_BASE_URL = "http://localhost:1234/api/Milkbrand";
-
-// Get token from localStorage in AngularJS, and attach it to requests in Node.js
+const API_BASE_URL = "http://localhost:1234/api/Usagecapacity";
 const getAuthToken = (req) => {
-  return req.session.token; // Use the session token stored during login
+  return req.session.token;
 };
-
-// Get all brands
-const getAllBrands = async (req, res) => {
+const getAllUsagecapacitys = async (req, res) => {
   const token = getAuthToken(req);
 
   try {
@@ -19,13 +15,12 @@ const getAllBrands = async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
-    console.error("Error fetching brands:", error);
-    res.status(500).json({ error: "Failed to fetch brands" });
+    console.error("Error fetching Usagecapacitys:", error);
+    res.status(500).json({ error: "Failed to fetch Usagecapacitys" });
   }
 };
 
-// Get brand by ID
-const getBrandById = async (req, res) => {
+const getUsagecapacityById = async (req, res) => {
   const { id } = req.params;
   const token = getAuthToken(req);
 
@@ -37,13 +32,11 @@ const getBrandById = async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
-    console.error("Error fetching brand by ID:", error);
-    res.status(500).json({ error: "Failed to fetch brand by ID" });
+    console.error("Error fetching Usagecapacity by ID:", error);
+    res.status(500).json({ error: "Failed to fetch Usagecapacity by ID" });
   }
 };
-
-// Delete brand by ID
-const deleteBrand = async (req, res) => {
+const deleteUsagecapacity = async (req, res) => {
   const { id } = req.params;
   const token = getAuthToken(req);
 
@@ -53,21 +46,21 @@ const deleteBrand = async (req, res) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    res.json({ message: "Brand deleted successfully" });
+    res.json({ message: "Usagecapacity deleted successfully" });
   } catch (error) {
-    console.error("Error deleting brand:", error);
-    res.status(500).json({ error: "Failed to delete brand" });
+    console.error("Error deleting Usagecapacity:", error);
+    res.status(500).json({ error: "Failed to delete Usagecapacity" });
   }
 };
 
-const addBrand = async (req, res) => {
-  const { milkbrandname, description } = req.body;
+const addUsagecapacity = async (req, res) => {
+  const { capacity, unit } = req.body;
   const token = getAuthToken(req);
 
   try {
     const response = await axios.post(
       `${API_BASE_URL}/add`,
-      { milkbrandname, description },
+      { capacity, unit },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -76,21 +69,20 @@ const addBrand = async (req, res) => {
     );
     res.json(response.data);
   } catch (error) {
-    console.error("Error adding brand:", error);
-    res.status(500).json({ error: "Failed to add brand" });
+    console.error("Error adding Usagecapacity:", error);
+    res.status(500).json({ error: "Failed to add Usagecapacity" });
   }
 };
 
-// Update brand
-const updateBrand = async (req, res) => {
+const updateUsagecapacity = async (req, res) => {
   const { id } = req.params;
-  const { milkbrandname, description } = req.body;
+  const { capacity, unit } = req.body;
   const token = getAuthToken(req);
 
   try {
     const response = await axios.put(
       `${API_BASE_URL}/update/${id}`,
-      { milkbrandname, description },
+      { capacity, unit },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -99,15 +91,15 @@ const updateBrand = async (req, res) => {
     );
     res.json(response.data);
   } catch (error) {
-    console.error("Error updating brand:", error);
-    res.status(500).json({ error: "Failed to update brand" });
+    console.error("Error updating Usagecapacity:", error);
+    res.status(500).json({ error: "Failed to update Usagecapacity" });
   }
 };
 
 module.exports = {
-  getAllBrands,
-  getBrandById,
-  deleteBrand,
-  addBrand,
-  updateBrand,
+  getAllUsagecapacitys,
+  getUsagecapacityById,
+  deleteUsagecapacity,
+  addUsagecapacity,
+  updateUsagecapacity,
 };

@@ -1,7 +1,7 @@
 var app = angular.module("myApp", ["ngRoute"]);
 app.controller("BrandController", function ($scope, $http, $location) {
   const token = localStorage.getItem("token");
-  const API_BASE_URL = "http://localhost:3000/api/brand";
+  const API_BASE_URL = "http://localhost:3000/api/Milkbrand";
 
   $scope.brands = [];
   $scope.deletedBrands = [];

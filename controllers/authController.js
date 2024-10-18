@@ -26,12 +26,22 @@ const handleLogin = async (req, res) => {
     );
 
     if (response.status === 200) {
+      const token = response.data.token;
+      const userInfo = parseJwt(token);
+
+      // Check if the user role is "Admin"
+      if (userInfo.role !== "Admin") {
+        return res.status(403).json({
+          error: "Bạn không có quyền truy cập.",
+        });
+      }
+
+      // Store session information
       req.session.loggedin = true;
-      req.session.token = response.data.token;
-      const userInfo = parseJwt(response.data.token);
+      req.session.token = token;
       req.session.userInfo = userInfo;
 
-      return res.json({ token: response.data.token, userInfo });
+      return res.json({ token, userInfo });
     } else {
       return res.status(401).json({
         error:

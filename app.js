@@ -1,12 +1,23 @@
-// app.js
-
+const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const fs = require("fs");
 const path = require("path");
-const authController = require("./controllers/authController"); // Import controller
-const milkbrandController = require("./controllers/ThuocTinhController/brandController");
+const viewRoutes = require("./Routes/viewRoutes");
+const authController = require("./controllers/authController");
+const InvoicedetailRoutes = require("./Routes/InvoicedetailRoutes");
+const MilkbrandRoutes = require("./Routes/MilkbrandRoutes");
+const invoiceRoutes = require("./Routes/invoiceRoutes");
+const MilkdetailRoute = require("./Routes/MilkdetailRoute");
+const MilktasteRoutes = require("./Routes/MilktasteRoutes");
+const MilktypeRoutes = require("./Routes/MilktypeRoutes");
+const PackagingunitRoutes = require("./Routes/PackagingunitRoutes");
+const ProductRoutes = require("./Routes/ProductRoutes");
+const TargetuserRoutes = require("./Routes/TargetuserRoutes");
+const UsagecapacityRoutes = require("./Routes/UsagecapacityRoutes");
+const UserinvoiceRoutes = require("./Routes/UserinvoiceRoutes");
+const VoucherRoutes = require("./Routes/VoucherRoutes");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -22,110 +33,19 @@ app.use(
   })
 );
 
-const renderLayout = (content) => {
-  const header = fs.readFileSync(
-    path.join(__dirname, "views/layout/header.html"),
-    "utf-8"
-  );
-  const footer = fs.readFileSync(
-    path.join(__dirname, "views/layout/footer.html"),
-    "utf-8"
-  );
-  const layout = fs.readFileSync(
-    path.join(__dirname, "views/layout.html"),
-    "utf-8"
-  );
-
-  // Replace placeholders in layout
-  return layout
-    .replace("{{header}}", header)
-    .replace("{{content}}", content)
-    .replace("{{footer}}", footer);
-};
-
-// Middleware to check login
-const checkLogin = (req, res, next) => {
-  if (!req.session.loggedin) {
-    return res.redirect("/login");
-  }
-  next();
-};
-
-// Routes
-app.get("/", checkLogin, (req, res) => {
-  const content = fs.readFileSync(
-    path.join(__dirname, "views/index.html"),
-    "utf-8"
-  );
-  res.send(renderLayout(content));
-});
-app.get("/api/brand/lst", checkLogin, milkbrandController.getAllBrands);
-app.get("/api/brand/:id", checkLogin, milkbrandController.getBrandById);
-app.delete("/api/brand/:id", checkLogin, milkbrandController.deleteBrand);
-app.post("/api/brand/add", checkLogin, milkbrandController.addBrand);
-app.put("/api/brand/update/:id", checkLogin, milkbrandController.updateBrand);
-app.get("/form-add-nhan-vien", checkLogin, (req, res) => {
-  const content = fs.readFileSync(
-    path.join(__dirname, "views/form-add-nhan-vien.html"),
-    "utf-8"
-  );
-  res.send(renderLayout(content));
-});
-
-app.get("/table-data-product", checkLogin, (req, res) => {
-  const content = fs.readFileSync(
-    path.join(__dirname, "views/table-data-product.html"),
-    "utf-8"
-  );
-  res.send(renderLayout(content));
-});
-
-app.get("/form-add-san-pham", checkLogin, (req, res) => {
-  const content = fs.readFileSync(
-    path.join(__dirname, "views/form-add-san-pham.html"),
-    "utf-8"
-  );
-  res.send(renderLayout(content));
-});
-
-app.get("/table-data-khach-hang", checkLogin, (req, res) => {
-  const content = fs.readFileSync(
-    path.join(__dirname, "views/table-data-khach-hang.html"),
-    "utf-8"
-  );
-  res.send(renderLayout(content));
-});
-
-app.get("/table-data-oder", checkLogin, (req, res) => {
-  const content = fs.readFileSync(
-    path.join(__dirname, "views/table-data-oder.html"),
-    "utf-8"
-  );
-  res.send(renderLayout(content));
-});
-
-app.get("/table-data-table", checkLogin, (req, res) => {
-  const content = fs.readFileSync(
-    path.join(__dirname, "views/table-data-table.html"),
-    "utf-8"
-  );
-  res.send(renderLayout(content));
-});
-
-app.get("/quan-ly-bao-cao", checkLogin, (req, res) => {
-  const content = fs.readFileSync(
-    path.join(__dirname, "views/quan-ly-bao-cao.html"),
-    "utf-8"
-  );
-  res.send(renderLayout(content));
-});
-app.get("/form-add-don-hang", checkLogin, (req, res) => {
-  const content = fs.readFileSync(
-    path.join(__dirname, "views/form-add-don-hang.html"),
-    "utf-8"
-  );
-  res.send(renderLayout(content));
-});
+app.use("/api/Invoice", invoiceRoutes);
+app.use("/api/Invoicedetail", InvoicedetailRoutes);
+app.use("/api/Milkbrand", MilkbrandRoutes);
+app.use("/api/Milkdetail", MilkdetailRoute);
+app.use("/api/Milktaste", MilktasteRoutes);
+app.use("/api/Milktype", MilktypeRoutes);
+app.use("/api/Packagingunit", PackagingunitRoutes);
+app.use("/api/Product", ProductRoutes);
+app.use("/api/Targetuser", TargetuserRoutes);
+app.use("/api/Usagecapacity", UsagecapacityRoutes);
+app.use("/api/Userinvoice", UserinvoiceRoutes);
+app.use("/api/Voucher", VoucherRoutes);
+app.use("/", viewRoutes);
 
 // Login routes
 app.get("/login", authController.getLoginPage);
@@ -138,10 +58,8 @@ app.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
-// Endpoint to retrieve token and user info
 app.get("/gettoken", authController.getToken);
 
-// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

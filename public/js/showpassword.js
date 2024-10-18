@@ -44,7 +44,14 @@ document
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 403) {
+          throw new Error(
+            "You do not have permission to access this resource."
+          );
+        }
+        return response.json();
+      })
       .then((data) => {
         if (data.token) {
           localStorage.setItem("token", data.token);
@@ -60,11 +67,14 @@ document
         }
       })
       .catch((error) => {
-        // console.error("Đã xảy ra lỗi trong quá trình đăng nhập:", error);
-        swal("Lỗi!", "Đăng nhập không thành công. Vui lòng thử lại.", "error");
+        swal(
+          "Lỗi!",
+          error.message || "Đăng nhập không thành công. Vui lòng thử lại.",
+          "error"
+        );
 
-        // Optionally update the error span directly
         document.querySelector(".thoong-bao-loi").textContent =
+          error.message ||
           "Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại.";
       });
   });
