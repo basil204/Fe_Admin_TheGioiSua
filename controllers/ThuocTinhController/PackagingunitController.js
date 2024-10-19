@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:1234/api/Packagingunit";
 const getAuthToken = (req) => {
   return req.session.token;
 };
-const getAllPackagingunits = async (req, res) => {
+const getAllPackagingunit = async (req, res) => {
   const token = getAuthToken(req);
 
   try {
@@ -97,7 +97,7 @@ const updatePackagingunit = async (req, res) => {
 };
 
 module.exports = {
-  getAllPackagingunits,
+  getAllPackagingunit,
   getPackagingunitById,
   deletePackagingunit,
   addPackagingunit,

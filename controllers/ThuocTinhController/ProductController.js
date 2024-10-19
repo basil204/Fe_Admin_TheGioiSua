@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:1234/api/Product";
 const getAuthToken = (req) => {
   return req.session.token;
 };
-const getAllProducts = async (req, res) => {
+const getAllProduct = async (req, res) => {
   const token = getAuthToken(req);
 
   try {
@@ -99,7 +99,7 @@ const updateProduct = async (req, res) => {
 };
 
 module.exports = {
-  getAllProducts,
+  getAllProduct,
   getProductById,
   deleteProduct,
   addProduct,

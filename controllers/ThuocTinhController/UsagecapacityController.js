@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:1234/api/Usagecapacity";
 const getAuthToken = (req) => {
   return req.session.token;
 };
-const getAllUsagecapacitys = async (req, res) => {
+const getAllUsagecapacity = async (req, res) => {
   const token = getAuthToken(req);
 
   try {
@@ -97,7 +97,7 @@ const updateUsagecapacity = async (req, res) => {
 };
 
 module.exports = {
-  getAllUsagecapacitys,
+  getAllUsagecapacity,
   getUsagecapacityById,
   deleteUsagecapacity,
   addUsagecapacity,

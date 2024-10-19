@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:1234/api/Milktaste";
 const getAuthToken = (req) => {
   return req.session.token;
 };
-const getAllMilktastes = async (req, res) => {
+const getAllMilktaste = async (req, res) => {
   const token = getAuthToken(req);
 
   try {
@@ -97,7 +97,7 @@ const updateMilktaste = async (req, res) => {
 };
 
 module.exports = {
-  getAllMilktastes,
+  getAllMilktaste,
   getMilktasteById,
   deleteMilktaste,
   addMilktaste,

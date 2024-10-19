@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:1234/api/Targetuser";
 const getAuthToken = (req) => {
   return req.session.token;
 };
-const getAllTargetusers = async (req, res) => {
+const getAllTargetuser = async (req, res) => {
   const token = getAuthToken(req);
 
   try {
@@ -97,7 +97,7 @@ const updateTargetuser = async (req, res) => {
 };
 
 module.exports = {
-  getAllTargetusers,
+  getAllTargetuser,
   getTargetuserById,
   deleteTargetuser,
   addTargetuser,

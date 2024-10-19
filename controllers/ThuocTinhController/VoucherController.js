@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:1234/api/Voucher";
 const getAuthToken = (req) => {
   return req.session.token;
 };
-const getAllVouchers = async (req, res) => {
+const getAllVoucher = async (req, res) => {
   const token = getAuthToken(req);
 
   try {
@@ -125,7 +125,7 @@ const updateVoucher = async (req, res) => {
 };
 
 module.exports = {
-  getAllVouchers,
+  getAllVoucher,
   getVoucherById,
   deleteVoucher,
   addVoucher,

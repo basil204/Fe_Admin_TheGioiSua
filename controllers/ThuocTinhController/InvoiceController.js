@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:1234/api/Invoice";
 const getAuthToken = (req) => {
   return req.session.token;
 };
-const getAllInvoices = async (req, res) => {
+const getAllInvoice = async (req, res) => {
   const token = getAuthToken(req);
 
   try {
@@ -97,7 +97,7 @@ const updateInvoice = async (req, res) => {
 };
 
 module.exports = {
-  getAllInvoices,
+  getAllInvoice,
   getInvoiceById,
   deleteInvoice,
   addInvoice,

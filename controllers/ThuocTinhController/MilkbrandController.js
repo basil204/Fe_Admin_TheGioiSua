@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:1234/api/Milkbrand";
 const getAuthToken = (req) => {
   return req.session.token;
 };
-const getAllMilkbrands = async (req, res) => {
+const getAllMilkbrand = async (req, res) => {
   const token = getAuthToken(req);
 
   try {
@@ -107,7 +107,7 @@ const updateMilkbrand = async (req, res) => {
 };
 
 module.exports = {
-  getAllMilkbrands,
+  getAllMilkbrand,
   getMilkbrandById,
   deleteMilkbrand,
   addMilkbrand,
