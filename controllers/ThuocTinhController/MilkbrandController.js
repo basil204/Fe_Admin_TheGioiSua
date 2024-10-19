@@ -1,9 +1,10 @@
 const axios = require("axios");
 
 const API_BASE_URL = "http://localhost:1234/api/Milkbrand";
-const getAuthToken = (req) => {
-  return req.session.token;
-};
+
+const getAuthToken = (req) => req.session.token;
+
+// Fetch all Milkbrands
 const getAllMilkbrands = async (req, res) => {
   const token = getAuthToken(req);
 
@@ -20,6 +21,7 @@ const getAllMilkbrands = async (req, res) => {
   }
 };
 
+// Fetch Milkbrand by ID
 const getMilkbrandById = async (req, res) => {
   const { id } = req.params;
   const token = getAuthToken(req);
@@ -32,10 +34,12 @@ const getMilkbrandById = async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
-    console.error("Error fetching Milkbrand by ID:", error);
+    console.error(`Error fetching Milkbrand by ID: ${id}`, error);
     res.status(500).json({ error: "Failed to fetch Milkbrand by ID" });
   }
 };
+
+// Delete Milkbrand by ID
 const deleteMilkbrand = async (req, res) => {
   const { id } = req.params;
   const token = getAuthToken(req);
@@ -48,24 +52,20 @@ const deleteMilkbrand = async (req, res) => {
     });
     res.json({ message: "Milkbrand deleted successfully" });
   } catch (error) {
-    console.error("Error deleting Milkbrand:", error);
+    console.error(`Error deleting Milkbrand: ${id}`, error);
     res.status(500).json({ error: "Failed to delete Milkbrand" });
   }
 };
 
+// Add new Milkbrand
 const addMilkbrand = async (req, res) => {
-  const { invoicecode, discountamount, totalamount, voucher } = req.body;
+  const { milkbrandname, description } = req.body;
   const token = getAuthToken(req);
 
   try {
     const response = await axios.post(
       `${API_BASE_URL}/add`,
-      {
-        invoicecode,
-        discountamount,
-        totalamount,
-        voucher, // Ensure nested structure for voucher
-      },
+      { milkbrandname, description },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -79,20 +79,16 @@ const addMilkbrand = async (req, res) => {
   }
 };
 
+// Update Milkbrand by ID
 const updateMilkbrand = async (req, res) => {
   const { id } = req.params;
-  const { invoicecode, discountamount, totalamount, voucher } = req.body;
+  const { milkbrandname, description } = req.body;
   const token = getAuthToken(req);
 
   try {
     const response = await axios.put(
       `${API_BASE_URL}/update/${id}`,
-      {
-        invoicecode,
-        discountamount,
-        totalamount,
-        voucher,
-      },
+      { milkbrandname, description },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -101,7 +97,7 @@ const updateMilkbrand = async (req, res) => {
     );
     res.json(response.data);
   } catch (error) {
-    console.error("Error updating Milkbrand:", error);
+    console.error(`Error updating Milkbrand: ${id}`, error);
     res.status(500).json({ error: "Failed to update Milkbrand" });
   }
 };
