@@ -245,12 +245,12 @@ app.controller("MilktasteController", function ($scope, $http, $location) {
       },
     }).then(
       function () {
-        $scope.showNotification("Xóa thương hiệu thành công", "success");
+        $scope.showNotification("Xóa vị sữa thành công", "success");
         $scope.getTastes();
         $scope.getDeletedTastes();
       },
       function (error) {
-        $scope.showNotification("Không thể xóa thương hiệu", "error");
+        $scope.showNotification("Không thể xóa vị sữa", "error");
         handleError(error);
       }
     );
@@ -264,12 +264,12 @@ app.controller("MilktasteController", function ($scope, $http, $location) {
       },
     }).then(
       function () {
-        $scope.showNotification("khôi phục thương hiệu thành công", "success");
+        $scope.showNotification("khôi phục vị sữa thành công", "success");
         $scope.getTastes();
         $scope.getDeletedTastes();
       },
       function (error) {
-        $scope.showNotification("Không thể khôi phục thương hiệu", "error");
+        $scope.showNotification("Không thể khôi phục vị sữa", "error");
         handleError(error);
       }
     );
@@ -281,8 +281,7 @@ app.controller("MilktasteController", function ($scope, $http, $location) {
       : `${API_BASE_URL}/add`;
 
     const TasteData = {
-      milkTastename: $scope.formData.milkTastename,
-      description: $scope.formData.description,
+      milktastename: $scope.formData.milktastename,
     };
 
     const config = {
@@ -292,22 +291,22 @@ app.controller("MilktasteController", function ($scope, $http, $location) {
     };
 
     const request = isUpdating
-      ? $http.put(apiUrl, tasteData, config)
-      : $http.post(apiUrl, tasteData, config);
+      ? $http.put(apiUrl, TasteData, config)
+      : $http.post(apiUrl, TasteData, config);
 
     request.then(
       function (response) {
         $scope.showNotification(
           isUpdating
-            ? "Cập nhật thương hiệu thành công"
-            : "Thêm thương hiệu mới thành công",
+            ? "Cập nhật vị sữa thành công"
+            : "Thêm vị sữa mới thành công",
           "success"
         );
         $scope.getTastes();
         $scope.formData = {};
       },
       function (error) {
-        $scope.showNotification("Không thể thêm/cập nhật thương hiệu", "error");
+        $scope.showNotification("Không thể thêm/cập nhật vị sữa", "error");
         handleError(error);
       }
     );
