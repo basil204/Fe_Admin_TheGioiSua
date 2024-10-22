@@ -54,13 +54,13 @@ const deleteTargetuser = async (req, res) => {
 };
 
 const addTargetuser = async (req, res) => {
-  const { targetname, description } = req.body;
+  const { targetuser, description } = req.body;
   const token = getAuthToken(req);
 
   try {
     const response = await axios.post(
       `${API_BASE_URL}/add`,
-      { targetname, description },
+      { targetuser, description },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -76,13 +76,13 @@ const addTargetuser = async (req, res) => {
 
 const updateTargetuser = async (req, res) => {
   const { id } = req.params;
-  const { targetname, description } = req.body;
+  const { targetuser, description } = req.body;
   const token = getAuthToken(req);
 
   try {
     const response = await axios.put(
       `${API_BASE_URL}/update/${id}`,
-      { targetname, description },
+      { targetuser, description },
       {
         headers: {
           Authorization: `Bearer ${token}`,

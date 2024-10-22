@@ -28,6 +28,14 @@
                 <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addLoaiDongGoi"><i
                     class="fas fa-folder-plus"></i> Thêm loại đóng gói</a>
               </div>
+              <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addLoaiNguoiDung"><i
+                    class="fas fa-folder-plus"></i> Thêm loại người dùng</a>
+              </div>
+              <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addDonViDongGoi"><i
+                    class="fas fa-folder-plus"></i> Thêm đơn vị đóng gói</a>
+              </div>
             </div>
             <form class="row">
               <div class="form-group col-md-3">
@@ -510,5 +518,208 @@ data-backdrop="static" data-keyboard="false" ng-controller="TypeController">
   </div>
 </div>
 
+<div class="modal fade" id="addLoaiNguoiDung" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+data-backdrop="static" data-keyboard="false" ng-controller="TargetuserController">
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <span class="thong-tin-thanh-toan">
+            <h5>Thêm mới loại người dùng</h5>
+          </span>
+        </div>
+        <div ng-if="notification.message" class="form-group col-md-12">
+          <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
+            {{ notification.message }}
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label class="control-label">Nhập tên loại người dùng mới</label>
+          <input class="form-control" type="text" ng-model="formData.targetuser" required>
+        </div>
+        <div class="form-group col-md-12">
+          <label class="control-label">Thêm mô tả </label>
+          <input class="form-control" type="text" ng-model="formData.description" required>
+        </div>
+      </div>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#activetargetuser" role="tab">Danh sách loại người dùng</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#deletedtargetuser" role="tab">Đã xóa</a>
+              </li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+              <!-- Active Brands Tab -->
+              <div class="tab-pane active" id="activetargetuser" role="tabpanel">
+                  <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Tên loại sữa</th>
+                                  <th>Mô tả</th>
+                                  <th>Chức Năng</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="targetuser in targetusers">
+                                  <td>{{ targetuser.id }}</td>
+                                  <td>{{ targetuser.targetuser }}</td>
+                                  <td>{{ targetuser.description }}</td>
+                                  <td>
+                                      <a ng-click="deleteTargetuser(targetuser.id)" class="btn btn-danger" role="button" aria-pressed="true">Xóa</a>
+                                      <a ng-click="getTargetuserById(targetuser.id)" class="btn btn-primary" role="button" aria-pressed="true">Chỉnh sửa</a>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+
+              <!-- Deleted Brands Tab -->
+              <div class="tab-pane" id="deletedtargetuser" role="tabpanel">
+                  <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Tên loại sữa</th>
+                                  <th>Mô tả</th>
+                                  <th>Chức Năng</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="targetuser in deletedTargetusers">
+                                <td>{{ targetuser.id }}</td>
+                                <td>{{ targetuser.targetuser }}</td>
+                                <td>{{ targetuser.description }}</td>
+                                  <td>
+                                      <a ng-click="RollbackTargetuser(targetuser.id)" class="btn btn-success" role="button" aria-pressed="true">Khôi phục</a>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+
+          <br>
+          <button class="btn btn-save" type="button" ng-click="addTargetuser(formData)">Lưu lại</button>
+          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+          <button class="btn btn-reset" type="button" ng-click="resetForm()">Reset Form</button>
+          <br>
+      </div>
+      <div class="modal-footer"></div>
+  </div>
+</div>
+</div>
+
+<div class="modal fade" id="addDonViDongGoi" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+data-backdrop="static" data-keyboard="false" ng-controller="UsagecapacityController">
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <span class="thong-tin-thanh-toan">
+            <h5>Thêm mới đơn vị đóng gói</h5>
+          </span>
+        </div>
+        <div ng-if="notification.message" class="form-group col-md-12">
+          <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
+            {{ notification.message }}
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label class="control-label">Nhập công xuất sử dụng</label>
+          <input class="form-control" type="text" ng-model="formData.capacity" required>
+        </div>
+        <div class="form-group col-md-12">
+          <label class="control-label">Thêm đơn vị công xuất</label>
+          <input class="form-control" type="text" ng-model="formData.unit" required>
+        </div>
+      </div>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#activeUsagecapacity" role="tab">Danh sách thương hiệu</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#deletedUsagecapacity" role="tab">Đã xóa</a>
+              </li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+              <!-- Active Brands Tab -->
+              <div class="tab-pane active" id="activeUsagecapacity" role="tabpanel">
+                  <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Tên công xuất</th>
+                                  <th>Đơn vị</th>
+                                  <th>Chức Năng</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="usagecapacity in usagecapacitys">
+                                  <td>{{ usagecapacity.id }}</td>
+                                  <td>{{ usagecapacity.capacity }}</td>
+                                  <td>{{ usagecapacity.unit }}</td>
+                                  <td>
+                                      <a ng-click="deleteUsagecapacity(usagecapacity.id)" class="btn btn-danger" role="button" aria-pressed="true">Xóa</a>
+                                      <a ng-click="getUsagecapacityById(usagecapacity.id)" class="btn btn-primary" role="button" aria-pressed="true">Chỉnh sửa</a>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+
+              <!-- Deleted Brands Tab -->
+              <div class="tab-pane" id="deletedUsagecapacity" role="tabpanel">
+                  <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Tên công xuất</th>
+                                  <th>Đơn vị</th>
+                                  <th>Chức Năng</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="usagecapacity in deletedUsagecapacitys">
+                              <td>{{ usagecapacity.id }}</td>
+                              <td>{{ usagecapacity.capacity }}</td>
+                              <td>{{ usagecapacity.unit }}</td>
+                                  <td>
+                                      <a ng-click="RollbackUsagecapacity(usagecapacity.id )" class="btn btn-success" role="button" aria-pressed="true">Khôi phục</a>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+
+          <br>
+          <button class="btn btn-save" type="button" ng-click="addUsagecapacity(formData)">Lưu lại</button>
+          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+          <button class="btn btn-reset" type="button" ng-click="resetForm()">Reset Form</button>
+          <br>
+      </div>
+      <div class="modal-footer"></div>
+  </div>
+</div>
+</div>
 
 </div>
