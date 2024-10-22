@@ -1,221 +1,221 @@
 <div >
-    <main class="app-content">
-      <div class="app-title">
-        <ul class="app-breadcrumb breadcrumb">
-          <li class="breadcrumb-item">Danh sách sản phẩm</li>
-          <li class="breadcrumb-item"><a href="#">Thêm sản phẩm</a></li>
-        </ul>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="tile">
-            <h3 class="tile-title">Tạo mới sản phẩm</h3>
-            <div class="tile-body">
-              <div class="row element-button">
-                <div class="col-sm-2">
-                  <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addThuongHieu"><i
-                      class="fas fa-folder-plus"></i> Thêm thương hiệu</a>
-                </div>
-                <div class="col-sm-2">
-                  <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addViSua"><i
-                      class="fas fa-folder-plus"></i> Thêm vị sữa</a>
-                </div>
-                <div class="col-sm-2">
-                  <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addtinhtrang"><i
-                      class="fas fa-folder-plus"></i> Thêm tình trạng</a>
-                </div>
-                <div class="col-sm-2">
-                  <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addrole"><i
-                      class="fas fa-folder-plus"></i> Thêm role</a>
-                </div>
-              </div>
-              <form class="row">
-                <div class="form-group col-md-3">
-                  <label class="control-label">Mã sản phẩm </label>
-                  <input class="form-control" type="number" placeholder="">
-                </div>
-                <div class="form-group col-md-3">
-                  <label class="control-label">Tên sản phẩm</label>
-                  <input class="form-control" type="text">
-                </div>
-    
-    
-                <div class="form-group  col-md-3">
-                  <label class="control-label">Số lượng</label>
-                  <input class="form-control" type="number">
-                </div>
-                <div class="form-group col-md-3 ">
-                  <label for="exampleSelect1" class="control-label">Tình trạng</label>
-                  <select class="form-control" id="exampleSelect1">
-                    <option>-- Chọn tình trạng --</option>
-                    <option>Còn hàng</option>
-                    <option>Hết hàng</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="exampleSelect1" class="control-label">Danh mục</label>
-                  <select class="form-control" id="exampleSelect1">
-                    <option>-- Chọn danh mục --</option>
-                    <option>Bàn ăn</option>
-                    <option>Bàn thông minh</option>
-                    <option>Tủ</option>
-                    <option>Ghế gỗ</option>
-                    <option>Ghế sắt</option>
-                    <option>Giường người lớn</option>
-                    <option>Giường trẻ em</option>
-                    <option>Bàn trang điểm</option>
-                    <option>Giá đỡ</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-3 ">
-                  <label for="exampleSelect1" class="control-label">Nhà cung cấp</label>
-                  <select class="form-control" id="exampleSelect1">
-                    <option>-- Chọn nhà cung cấp --</option>
-                    <option>Phong vũ</option>
-                    <option>Thế giới di động</option>
-                    <option>FPT</option>
-                    <option>Võ Trường</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-3">
-                  <label class="control-label">Giá bán</label>
-                  <input class="form-control" type="text">
-                </div>
-                <div class="form-group col-md-3">
-                  <label class="control-label">Giá vốn</label>
-                  <input class="form-control" type="text">
-                </div>
-                <div class="form-group col-md-12">
-                  <label class="control-label">Ảnh sản phẩm</label>
-                  <div id="myfileupload">
-                    <input type="file" id="uploadfile" name="ImageUpload" onchange="readURL(this);" />
-                  </div>
-                  <div id="thumbbox">
-                    <img height="450" width="400" alt="Thumb image" id="thumbimage" style="display: none" />
-                    <a class="removeimg" href="javascript:"></a>
-                  </div>
-                  <div id="boxchoice">
-                    <a href="javascript:" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn ảnh</a>
-                    <p style="clear:both"></p>
-                  </div>
-    
-                </div>
-                <div class="form-group col-md-12">
-                  <label class="control-label">Mô tả sản phẩm</label>
-                  <textarea class="form-control" name="mota" id="mota"></textarea>
-                  <script>CKEDITOR.replace('mota');</script>
-                </div>
-    
-            </div>
-            <button class="btn btn-save" type="button">Lưu lại</button>
-            <a class="btn btn-cancel" href="table-data-product.html">Hủy bỏ</a>
-          </div>
-    </main>
-    
-    
-    <!--
-    MODAL CHỨC VỤ 
-    -->
-    <div class="modal fade" id="addThuongHieu" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    data-backdrop="static" data-keyboard="false" ng-controller="BrandController">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="row">
-              <div class="form-group col-md-12">
-                <span class="thong-tin-thanh-toan">
-                  <h5>Thêm mới thương hiệu</h5>
-                </span>
-              </div>
-              <div ng-if="notification.message" class="form-group col-md-12">
-                <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
-                  {{ notification.message }}
-                </div>
-              </div>
-              <div class="form-group col-md-12">
-                <label class="control-label">Nhập tên thương hiệu mới</label>
-                <input class="form-control" type="text" ng-model="formData.milkbrandname" required>
-              </div>
-              <div class="form-group col-md-12">
-                <label class="control-label">Thêm mô tả thương hiệu</label>
-                <input class="form-control" type="text" ng-model="formData.description" required>
-              </div>
-            </div>
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#activeBrands" role="tab">Danh sách thương hiệu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#deletedBrands" role="tab">Đã xóa</a>
-                    </li>
-                </ul>
-
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <!-- Active Brands Tab -->
-                    <div class="tab-pane active" id="activeBrands" role="tabpanel">
-                        <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Tên thương hiệu</th>
-                                        <th>Mô tả</th>
-                                        <th>Chức Năng</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="brand in brands">
-                                        <td>{{ brand.id }}</td>
-                                        <td>{{ brand.milkbrandname }}</td>
-                                        <td>{{ brand.description }}</td>
-                                        <td>
-                                            <a ng-click="deleteBrand(brand.id)" class="btn btn-danger" role="button" aria-pressed="true">Xóa</a>
-                                            <a ng-click="getBrandById(brand.id)" class="btn btn-primary" role="button" aria-pressed="true">Chỉnh sửa</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Deleted Brands Tab -->
-                    <div class="tab-pane" id="deletedBrands" role="tabpanel">
-                        <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Tên thương hiệu</th>
-                                        <th>Mô tả</th>
-                                        <th>Chức Năng</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="brand in deletedBrands">
-                                        <td>{{ brand.id }}</td>
-                                        <td>{{ brand.milkbrandname }}</td>
-                                        <td>{{ brand.description }}</td>
-                                        <td>
-                                            <a ng-click="RollbackBrand(brand.id)" class="btn btn-success" role="button" aria-pressed="true">Khôi phục</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <br>
-                <button class="btn btn-save" type="button" ng-click="addBrand(formData)">Lưu lại</button>
-                <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                <button class="btn btn-reset" type="button" ng-click="resetForm()">Reset Form</button>
-                <br>
-            </div>
-            <div class="modal-footer"></div>
-        </div>
+  <main class="app-content">
+    <div class="app-title">
+      <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item">Danh sách sản phẩm</li>
+        <li class="breadcrumb-item"><a href="#">Thêm sản phẩm</a></li>
+      </ul>
     </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tile">
+          <h3 class="tile-title">Tạo mới sản phẩm</h3>
+          <div class="tile-body">
+            <div class="row element-button">
+              <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addThuongHieu"><i
+                    class="fas fa-folder-plus"></i> Thêm thương hiệu</a>
+              </div>
+              <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addViSua"><i
+                    class="fas fa-folder-plus"></i> Thêm vị sữa</a>
+              </div>
+              <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addLoaiSua"><i
+                    class="fas fa-folder-plus"></i> Thêm loaị sữa</a>
+              </div>
+              <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addLoaiDongGoi"><i
+                    class="fas fa-folder-plus"></i> Thêm loại đóng gói</a>
+              </div>
+            </div>
+            <form class="row">
+              <div class="form-group col-md-3">
+                <label class="control-label">Mã sản phẩm </label>
+                <input class="form-control" type="number" placeholder="">
+              </div>
+              <div class="form-group col-md-3">
+                <label class="control-label">Tên sản phẩm</label>
+                <input class="form-control" type="text">
+              </div>
+  
+  
+              <div class="form-group  col-md-3">
+                <label class="control-label">Số lượng</label>
+                <input class="form-control" type="number">
+              </div>
+              <div class="form-group col-md-3 ">
+                <label for="exampleSelect1" class="control-label">Tình trạng</label>
+                <select class="form-control" id="exampleSelect1">
+                  <option>-- Chọn tình trạng --</option>
+                  <option>Còn hàng</option>
+                  <option>Hết hàng</option>
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="exampleSelect1" class="control-label">Danh mục</label>
+                <select class="form-control" id="exampleSelect1">
+                  <option>-- Chọn danh mục --</option>
+                  <option>Bàn ăn</option>
+                  <option>Bàn thông minh</option>
+                  <option>Tủ</option>
+                  <option>Ghế gỗ</option>
+                  <option>Ghế sắt</option>
+                  <option>Giường người lớn</option>
+                  <option>Giường trẻ em</option>
+                  <option>Bàn trang điểm</option>
+                  <option>Giá đỡ</option>
+                </select>
+              </div>
+              <div class="form-group col-md-3 ">
+                <label for="exampleSelect1" class="control-label">Nhà cung cấp</label>
+                <select class="form-control" id="exampleSelect1">
+                  <option>-- Chọn nhà cung cấp --</option>
+                  <option>Phong vũ</option>
+                  <option>Thế giới di động</option>
+                  <option>FPT</option>
+                  <option>Võ Trường</option>
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="control-label">Giá bán</label>
+                <input class="form-control" type="text">
+              </div>
+              <div class="form-group col-md-3">
+                <label class="control-label">Giá vốn</label>
+                <input class="form-control" type="text">
+              </div>
+              <div class="form-group col-md-12">
+                <label class="control-label">Ảnh sản phẩm</label>
+                <div id="myfileupload">
+                  <input type="file" id="uploadfile" name="ImageUpload" onchange="readURL(this);" />
+                </div>
+                <div id="thumbbox">
+                  <img height="450" width="400" alt="Thumb image" id="thumbimage" style="display: none" />
+                  <a class="removeimg" href="javascript:"></a>
+                </div>
+                <div id="boxchoice">
+                  <a href="javascript:" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn ảnh</a>
+                  <p style="clear:both"></p>
+                </div>
+  
+              </div>
+              <div class="form-group col-md-12">
+                <label class="control-label">Mô tả sản phẩm</label>
+                <textarea class="form-control" name="mota" id="mota"></textarea>
+                <script>CKEDITOR.replace('mota');</script>
+              </div>
+  
+          </div>
+          <button class="btn btn-save" type="button">Lưu lại</button>
+          <a class="btn btn-cancel" href="table-data-product.html">Hủy bỏ</a>
+        </div>
+  </main>
+  
+  
+  <!--
+  MODAL CHỨC VỤ 
+  -->
+  <div class="modal fade" id="addThuongHieu" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  data-backdrop="static" data-keyboard="false" ng-controller="BrandController">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thêm mới thương hiệu</h5>
+              </span>
+            </div>
+            <div ng-if="notification.message" class="form-group col-md-12">
+              <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
+                {{ notification.message }}
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <label class="control-label">Nhập tên thương hiệu mới</label>
+              <input class="form-control" type="text" ng-model="formData.milkbrandname" required>
+            </div>
+            <div class="form-group col-md-12">
+              <label class="control-label">Thêm mô tả thương hiệu</label>
+              <input class="form-control" type="text" ng-model="formData.description" required>
+            </div>
+          </div>
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" href="#activeBrands" role="tab">Danh sách thương hiệu</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#deletedBrands" role="tab">Đã xóa</a>
+                  </li>
+              </ul>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                  <!-- Active Brands Tab -->
+                  <div class="tab-pane active" id="activeBrands" role="tabpanel">
+                      <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                          <table class="table table-bordered">
+                              <thead>
+                                  <tr>
+                                      <th>ID</th>
+                                      <th>Tên thương hiệu</th>
+                                      <th>Mô tả</th>
+                                      <th>Chức Năng</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr ng-repeat="brand in brands">
+                                      <td>{{ brand.id }}</td>
+                                      <td>{{ brand.milkbrandname }}</td>
+                                      <td>{{ brand.description }}</td>
+                                      <td>
+                                          <a ng-click="deleteBrand(brand.id)" class="btn btn-danger" role="button" aria-pressed="true">Xóa</a>
+                                          <a ng-click="getBrandById(brand.id)" class="btn btn-primary" role="button" aria-pressed="true">Chỉnh sửa</a>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+
+                  <!-- Deleted Brands Tab -->
+                  <div class="tab-pane" id="deletedBrands" role="tabpanel">
+                      <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                          <table class="table table-bordered">
+                              <thead>
+                                  <tr>
+                                      <th>ID</th>
+                                      <th>Tên thương hiệu</th>
+                                      <th>Mô tả</th>
+                                      <th>Chức Năng</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr ng-repeat="brand in deletedBrands">
+                                      <td>{{ brand.id }}</td>
+                                      <td>{{ brand.milkbrandname }}</td>
+                                      <td>{{ brand.description }}</td>
+                                      <td>
+                                          <a ng-click="RollbackBrand(brand.id)" class="btn btn-success" role="button" aria-pressed="true">Khôi phục</a>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+
+              <br>
+              <button class="btn btn-save" type="button" ng-click="addBrand(formData)">Lưu lại</button>
+              <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+              <button class="btn btn-reset" type="button" ng-click="resetForm()">Reset Form</button>
+              <br>
+          </div>
+          <div class="modal-footer"></div>
+      </div>
+  </div>
 </div>
 
 
@@ -223,99 +223,292 @@
 <div class="modal fade" id="addViSua" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
 data-backdrop="static" data-keyboard="false" ng-controller="MilktasteController">
 <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="row">
-          <div class="form-group col-md-12">
-            <span class="thong-tin-thanh-toan">
-              <h5>Thêm mới vị sữa</h5>
-            </span>
-          </div>
-          <div ng-if="notification.message" class="form-group col-md-12">
-            <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
-              {{ notification.message }}
-            </div>
-          </div>
-          <div class="form-group col-md-12">
-            <label class="control-label">Nhập tên vị sữa</label>
-            <input class="form-control" type="text" ng-model="formData.milktastename" required>
-          </div>
-        
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <span class="thong-tin-thanh-toan">
+            <h5>Thêm mới vị sữa</h5>
+          </span>
         </div>
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#activeTastes" role="tab">Danh sách vị sữa</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#deletedTastes" role="tab">Đã xóa</a>
-                </li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <!-- Active Brands Tab -->
-                <div class="tab-pane active" id="activeTastes" role="tabpanel">
-                    <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tên vị sữa</th>
-                                    <th>Chức Năng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="taste in tastes">
-                                    <td>{{ taste.id }}</td>
-                                    <td>{{ taste.milktastename }}</td>
-                                    
-                                    <td>
-                                        <a ng-click="deleteTaste(taste.id)" class="btn btn-danger" role="button" aria-pressed="true">Xóa</a>
-                                        <a ng-click="getTasteById(taste.id)" class="btn btn-primary" role="button" aria-pressed="true">Chỉnh sửa</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Deleted Brands Tab -->
-                <div class="tab-pane" id="deletedTastes" role="tabpanel">
-                    <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tên vị sữa</th>
-                                    <th>Chức Năng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="taste in deletedTastes">
-                                    <td>{{ taste.id }}</td>
-                                    <td>{{ taste.milktastename }}</td>
-                                    
-                                    <td>
-                                        <a ng-click="RollbackTaste(taste.id)" class="btn btn-success" role="button" aria-pressed="true">Khôi phục</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <br>
-            <button class="btn btn-save" type="button" ng-click="addTaste(formData)">Lưu lại</button>
-            <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-            <button class="btn btn-reset" type="button" ng-click="resetForm()">Reset Form</button>
-            <br>
+        <div ng-if="notification.message" class="form-group col-md-12">
+          <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
+            {{ notification.message }}
+          </div>
         </div>
-        <div class="modal-footer"></div>
-    </div>
+        <div class="form-group col-md-12">
+          <label class="control-label">Nhập tên vị sữa</label>
+          <input class="form-control" type="text" ng-model="formData.milktastename" required>
+        </div>
+      
+      </div>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#activeTastes" role="tab">Danh sách vị sữa</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#deletedTastes" role="tab">Đã xóa</a>
+              </li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+              <!-- Active Brands Tab -->
+              <div class="tab-pane active" id="activeTastes" role="tabpanel">
+                  <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Tên vị sữa</th>
+                                  <th>Chức Năng</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="taste in tastes">
+                                  <td>{{ taste.id }}</td>
+                                  <td>{{ taste.milktastename }}</td>
+                                  
+                                  <td>
+                                      <a ng-click="deleteTaste(taste.id)" class="btn btn-danger" role="button" aria-pressed="true">Xóa</a>
+                                      <a ng-click="getTasteById(taste.id)" class="btn btn-primary" role="button" aria-pressed="true">Chỉnh sửa</a>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+
+              <!-- Deleted Brands Tab -->
+              <div class="tab-pane" id="deletedTastes" role="tabpanel">
+                  <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Tên vị sữa</th>
+                                  <th>Chức Năng</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="taste in deletedTastes">
+                                  <td>{{ taste.id }}</td>
+                                  <td>{{ taste.milktastename }}</td>
+                                  
+                                  <td>
+                                      <a ng-click="RollbackTaste(taste.id)" class="btn btn-success" role="button" aria-pressed="true">Khôi phục</a>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+
+          <br>
+          <button class="btn btn-save" type="button" ng-click="addTaste(formData)">Lưu lại</button>
+          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+          <button class="btn btn-reset" type="button" ng-click="resetForm()">Reset Form</button>
+          <br>
+      </div>
+      <div class="modal-footer"></div>
+  </div>
 </div>
 </div>
 
-    
-    </div>
+<div class="modal fade" id="addLoaiSua" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+data-backdrop="static" data-keyboard="false" ng-controller="TypeController">
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <span class="thong-tin-thanh-toan">
+            <h5>Thêm mới loại sữa</h5>
+          </span>
+        </div>
+        <div ng-if="notification.message" class="form-group col-md-12">
+          <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
+            {{ notification.message }}
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label class="control-label">Nhập tên loại sữa mới</label>
+          <input class="form-control" type="text" ng-model="formData.milkTypename" required>
+        </div>
+        <div class="form-group col-md-12">
+          <label class="control-label">Thêm mô tả loại sữa</label>
+          <input class="form-control" type="text" ng-model="formData.description" required>
+        </div>
+      </div>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#activeTypes" role="tab">Danh sách thương hiệu</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#deletedTypes" role="tab">Đã xóa</a>
+              </li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+              <!-- Active Brands Tab -->
+              <div class="tab-pane active" id="activeTypes" role="tabpanel">
+                  <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Tên loại sữa</th>
+                                  <th>Mô tả</th>
+                                  <th>Chức Năng</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="type in types">
+                                  <td>{{ type.id }}</td>
+                                  <td>{{ type.milkTypename }}</td>
+                                  <td>{{ type.description }}</td>
+                                  <td>
+                                      <a ng-click="deleteType(type.id)" class="btn btn-danger" role="button" aria-pressed="true">Xóa</a>
+                                      <a ng-click="getTypeById(type.id)" class="btn btn-primary" role="button" aria-pressed="true">Chỉnh sửa</a>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+
+              <!-- Deleted Brands Tab -->
+              <div class="tab-pane" id="deletedTypes" role="tabpanel">
+                  <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Tên loại sữa</th>
+                                  <th>Mô tả</th>
+                                  <th>Chức Năng</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="type in deletedTypes">
+                                <td>{{ type.id }}</td>
+                                <td>{{ type.milkTypename }}</td>
+                                <td>{{ type.description }}</td>
+                                  <td>
+                                      <a ng-click="RollbackType(type.id )" class="btn btn-success" role="button" aria-pressed="true">Khôi phục</a>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+
+          <br>
+          <button class="btn btn-save" type="button" ng-click="addType(formData)">Lưu lại</button>
+          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+          <button class="btn btn-reset" type="button" ng-click="resetForm()">Reset Form</button>
+          <br>
+      </div>
+      <div class="modal-footer"></div>
+  </div>
+</div>
+</div>
+
+<div class="modal fade" id="addLoaiDongGoi" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false" ng-controller="PackagingunitController">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-body">
+              <div class="row">
+                  <div class="form-group col-md-12">
+                      <span class="thong-tin-thanh-toan">
+                          <h5>Thêm mới loại đóng gói</h5>
+                      </span>
+                  </div>
+                  <div ng-if="notification.message" class="form-group col-md-12">
+                      <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
+                          {{ notification.message }}
+                      </div>
+                  </div>
+                  <div class="form-group col-md-12">
+                      <label class="control-label">Nhập tên loại đóng gói mới</label>
+                      <input class="form-control" type="text" ng-model="formData.packagingunitname" required />
+                  </div>
+              </div>
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" href="#activePackagingunit" role="tab">Danh sách loại đóng gói</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#deletePackagingunit" role="tab">Đã xóa</a>
+                  </li>
+              </ul>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                  <!-- Active Brands Tab -->
+                  <div class="tab-pane active" id="activePackagingunit" role="tabpanel">
+                      <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                          <table class="table table-bordered">
+                              <thead>
+                                  <tr>
+                                      <th>ID</th>
+                                      <th>Tên loại đóng gói</th>
+                                      <th>Chức Năng</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr ng-repeat="packagingunit in packagingunits">
+                                      <td>{{ packagingunit.id }}</td>
+                                      <td>{{ packagingunit.packagingunitname }}</td>
+                                      <td>
+                                          <a ng-click="deletePackagingunit(packagingunit.id)" class="btn btn-danger" role="button" aria-pressed="true">Xóa</a>
+                                          <a ng-click="getPackagingunitById(packagingunit.id)" class="btn btn-primary" role="button" aria-pressed="true">Chỉnh sửa</a>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                  <div class="tab-pane" id="deletePackagingunit" role="tabpanel">
+                      <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                          <table class="table table-bordered">
+                              <thead>
+                                  <tr>
+                                      <th>ID</th>
+                                      <th>Tên loại đóng gói</th>
+                                      <th>Chức Năng</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr ng-repeat="deletedPackagingunit in deletedPackagingunits">
+                                      <td>{{ deletedPackagingunit.id }}</td>
+                                      <td>{{ deletedPackagingunit.packagingunitname }}</td>
+                                      <td>
+                                          <a ng-click="RollbackPackagingunit(deletedPackagingunit.id  )" class="btn btn-success" role="button" aria-pressed="true">Khôi phục</a>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+
+              <br />
+              <button class="btn btn-save" type="button" ng-click="addPackagingunit(formData)">Lưu lại</button>
+              <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+              <button class="btn btn-reset" type="button" ng-click="resetForm()">Reset Form</button>
+              <br />
+          </div>
+          <div class="modal-footer"></div>
+      </div>
+  </div>
+</div>
+
+
+</div>
