@@ -54,13 +54,13 @@ const deleteMilktype = async (req, res) => {
 };
 
 const addMilktype = async (req, res) => {
-  const { milktypename, description } = req.body;
+  const { milkTypename, description } = req.body;
   const token = getAuthToken(req);
 
   try {
     const response = await axios.post(
       `${API_BASE_URL}/add`,
-      { milktypename, description },
+      { milkTypename, description },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -76,13 +76,13 @@ const addMilktype = async (req, res) => {
 
 const updateMilktype = async (req, res) => {
   const { id } = req.params;
-  const { milktypename, description } = req.body;
+  const { milkTypename, description } = req.body;
   const token = getAuthToken(req);
 
   try {
     const response = await axios.put(
       `${API_BASE_URL}/update/${id}`,
-      { milktypename, description },
+      { milkTypename, description },
       {
         headers: {
           Authorization: `Bearer ${token}`,
