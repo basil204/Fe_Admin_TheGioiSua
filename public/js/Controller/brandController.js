@@ -18,6 +18,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
     deletedTargetUsers: [],
     usageCapacities: [],
     deletedUsageCapacities: [],
+    products: [],
+    deletedProducts: [],
   };
 
   $scope.formData = {};
@@ -78,6 +80,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
     fetchData("Targetuser", 0, "deletedTargetUsers");
     fetchData("Usagecapacity", 1, "usageCapacities");
     fetchData("Usagecapacity", 0, "deletedUsageCapacities");
+    fetchData("Product", 1, "products");
+    fetchData("Product", 0, "deletedProducts");
   };
 
   // Fetch an item by ID
@@ -88,6 +92,7 @@ app.controller("MasterController", function ($scope, $http, $location) {
     }).then(
       function (response) {
         $scope.formData = response.data;
+        $scope.formData.selectedBrand = response.data.milkBrand.id;
       },
       function (error) {
         $scope.showNotification("Không thể tải dữ liệu", "error");
@@ -203,6 +208,7 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
     Product: "http://localhost:3000/api/Product",
     PackagingUnit: "http://localhost:3000/api/Packagingunit",
     UsageCapacity: "http://localhost:3000/api/Usagecapacity",
+    Product: "http://localhost:3000/api/Products",
   };
 
   // Utility Function to Handle API Errors
