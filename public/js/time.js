@@ -23,6 +23,6 @@ function time() {
     const currentDate = `${day}, ${dd}/${mm}/${yyyy}`;
 
     const display = `<span class="date">${currentDate} - ${currentTime}</span>`;
-    document.getElementById("clock").innerHTML = display;
+    // document.getElementById("clock").innerHTML = display;
   }, 1000);
 }
