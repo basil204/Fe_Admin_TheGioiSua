@@ -38,6 +38,11 @@
               </div>
             </div>
             <form class="row">
+              <div ng-if="notification.message" class="form-group col-md-12">
+                <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
+                  {{ notification.message }}
+                </div>
+              </div>
               <div class="form-group col-md-3">
                 <label class="control-label">Tên sản phẩm</label>
                 <input class="form-control" type="text" ng-model="formData.productname" required>
@@ -50,14 +55,14 @@
               </div>
               <div class="form-group col-md-3 ">
                 <label for="exampleSelect1" class="control-label">Loại sữa</label>
-                <select class="form-control" id="exampleSelect1" ng-model="selectedType" ng-options="type.milkTypename for type in data.types">
-                  <option value="" disabled selected>-- Chọn loại sữa --</option>
+                <select class="form-control" id="exampleSelect1" ng-model="formData.selectedType">
+                  <option ng-repeat="type in data.types" ng-value="type.id">{{type.milkTypename}}</option>
                 </select>
               </div>
               <div class="form-group col-md-3 ">
                 <label for="exampleSelect1" class="control-label">Đối tượng sử dụng</label>
-                <select class="form-control" id="exampleSelect1" ng-model="selectedTargetuser" ng-options="targetuser.targetuser for targetuser in data.targetUsers">
-                  <option value="" disabled selected>-- Chọn đối tượng sử dụng --</option>
+                <select class="form-control" id="exampleSelect1" ng-model="formData.selectedTargetuser">
+                  <option ng-repeat="targetuser in data.targetUsers" ng-value="targetuser.id">{{targetuser.targetuser}}</option>
                 </select>
               </div>
               <div class="form-group col-md-12">
@@ -112,7 +117,7 @@
                     <td>{{ product.milkBrand.milkbrandname }}</td>
                     <td>{{ product.targetUser.targetuser }}</td>
                     <td>
-                      <button ng-click="deleteOrRollbackItem('Usagecapacity', usagecapacity.id)" class="btn btn-danger btn-sm">Xóa</button>
+                      <button ng-click="deleteOrRollbackItem('Product', product.id)" class="btn btn-danger btn-sm">Xóa</button>
                       <button ng-click="getItemById('Product', product.id)" class="btn btn-primary btn-sm">Chỉnh sửa</button>
                     </td>
                   </tr>
@@ -145,7 +150,7 @@
                     <td>{{ product.milkBrand.milkbrandname }}</td>
                     <td>{{ product.targetUser.targetuser }}</td>
                     <td>
-                      <button ng-click="deleteOrRollbackItem('Usagecapacity', usagecapacity.id, true)" class="btn btn-success btn-sm">Khôi phục</button>
+                      <button ng-click="deleteOrRollbackItem('Product', product.id, true)" class="btn btn-success btn-sm">Khôi phục</button>
                     </td>
                   </tr>
                 </tbody>
@@ -155,7 +160,7 @@
         </div>  
       </div>  
           </div>
-          <button class="btn btn-save" type="button">Lưu lại</button>
+          <button class="btn btn-save" type="button" ng-click="addOrUpdateItem('Product')">Lưu lại</button>
           <a class="btn btn-cancel" href="table-data-product.html">Hủy bỏ</a>
         </div>
   </main>

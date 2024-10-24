@@ -93,6 +93,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
       function (response) {
         $scope.formData = response.data;
         $scope.formData.selectedBrand = response.data.milkBrand.id;
+        $scope.formData.selectedType = response.data.milkType.id;
+        $scope.formData.selectedTargetuser = response.data.targetUser.id;
       },
       function (error) {
         $scope.showNotification("Không thể tải dữ liệu", "error");
