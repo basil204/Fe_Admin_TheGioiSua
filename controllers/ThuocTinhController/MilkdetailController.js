@@ -54,12 +54,12 @@ const deleteMilkdetail = async (req, res) => {
 };
 const addMilkdetail = async (req, res) => {
   const {
-    milkdetailcode,
     product,
     milkTaste,
-    packagingUnit,
+    packagingunit,
     usageCapacity,
     expirationdate,
+    imgUrl,
     price,
     description,
     stockquantity,
@@ -70,12 +70,12 @@ const addMilkdetail = async (req, res) => {
     const response = await axios.post(
       `${API_BASE_URL}/add`,
       {
-        milkdetailcode,
         product,
         milkTaste,
-        packagingUnit,
+        packagingunit,
         usageCapacity,
         expirationdate,
+        imgUrl,
         price,
         description,
         stockquantity,
@@ -96,12 +96,12 @@ const addMilkdetail = async (req, res) => {
 const updateMilkdetail = async (req, res) => {
   const { id } = req.params;
   const {
-    milkdetailcode,
     product,
     milkTaste,
-    packagingUnit,
+    packagingunit,
     usageCapacity,
     expirationdate,
+    imgUrl,
     price,
     description,
     stockquantity,
@@ -112,12 +112,12 @@ const updateMilkdetail = async (req, res) => {
     const response = await axios.put(
       `${API_BASE_URL}/update/${id}`,
       {
-        milkdetailcode,
         product,
         milkTaste,
-        packagingUnit,
+        packagingunit,
         usageCapacity,
         expirationdate,
+        imgUrl,
         price,
         description,
         stockquantity,

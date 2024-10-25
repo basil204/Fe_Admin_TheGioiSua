@@ -163,7 +163,6 @@ app.controller("MasterController", function ($scope, $http, $location) {
   // Initialize all data on load
   $scope.getAllData();
 });
-
 app.controller("MilkDetailController", function ($scope, $http, $location) {
   // Notification Setup
   $scope.notification = { message: "", type: "" };
@@ -176,12 +175,16 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
       $scope.$apply();
     }, 3000);
   };
+  $scope.clearNotification = function () {
+    $scope.notification.message = "";
+    $scope.notification.type = "";
+  };
 
   // Pagination Setup
   $scope.currentPage = 1;
   $scope.itemsPerPage = 5;
   $scope.milkdetails = []; // Initialize as an empty array to avoid undefined errors
-
+  $scope.formData = {};
   $scope.numberOfPages = () =>
     $scope.milkdetails
       ? Math.ceil($scope.milkdetails.length / $scope.itemsPerPage)
@@ -311,10 +314,9 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   $scope.updateMilkdetail = function () {
     const id = $scope.formData.id;
     const updatedMilkdetail = {
-      milkdetailcode: $scope.formData.milkdetailcode,
       product: { id: $scope.formData.productId },
       milkTaste: { id: $scope.formData.milkTasteId },
-      packagingUnit: { id: $scope.formData.packagingunitId },
+      packagingunit: { id: $scope.formData.packagingunitId },
       usageCapacity: { id: $scope.formData.usageCapacityIds },
       expirationdate: $scope.formData.expirationdate,
       imgUrl: $scope.formData.imgUrl,
@@ -330,10 +332,13 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
       .then((response) => {
         $scope.showNotification(response.data.message, "success");
         $scope.getMilkdetails();
+        $scope.resetForm();
       })
       .catch((error) => handleApiError("Có lỗi xảy ra", error));
   };
-
+  $scope.resetForm = function () {
+    $scope.formData = {};
+  };
   // Initialize Data
   $scope.getBrands();
   $scope.getTastes();

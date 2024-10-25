@@ -7,109 +7,75 @@
         <div id="clock"></div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <div class="tile">
-                <div class="tile-body">
-                    <div class="row element-button">
-                        <div class="col-sm-2">
-          
-                          <a class="btn btn-add btn-sm" href="/form-add-san-pham" title="Thêm"><i class="fas fa-plus"></i>
-                            Tạo mới sản phẩm</a>
-                        </div>
-                        <div class="col-sm-2">
-                          <a class="btn btn-delete btn-sm nhap-tu-file" type="button" title="Nhập" onclick="myFunction(this)"><i
-                              class="fas fa-file-upload"></i> Tải từ file</a>
-                        </div>
-          
-                        <div class="col-sm-2">
-                          <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick="myApp.printTable()"><i
-                              class="fas fa-print"></i> In dữ liệu</a>
-                        </div>
-                        <div class="col-sm-2">
-                          <a class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép"><i
-                              class="fas fa-copy"></i> Sao chép</a>
-                        </div>
-          
-                        <div class="col-sm-2">
-                          <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
-                        </div>
-                        <div class="col-sm-2">
-                          <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" onclick="myFunction(this)"><i
-                              class="fas fa-file-pdf"></i> Xuất PDF</a>
-                        </div>
-                        <div class="col-sm-2">
-                          <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i
-                              class="fas fa-trash-alt"></i> Xóa tất cả </a>
-                        </div>
-                      </div>
-                    <table class="table table-hover table-bordered" id="sampleTable">
-                        <thead>
-                            <tr>
-                                <th width="10"><input type="checkbox" id="all"></th>
-                                <th>Mã sản phẩm</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Loại Sản Phẩm</th>
-                                <th>Hãng</th>
-                                <th>Độ Tuổi</th>
-                                <th>Hương Vị</th>
-                                <th>Loại</th>
-                                <th>Giá Tiền</th>
-                                <th>Dung tích</th>
-                                <th>Hình ảnh</th>
-                                <th>Trạng thái</th>
-                                <th>Ngày Tạo</th>
-                                <th>Chức Năng</th>
-                            </tr>
-                        </thead>
-                        <tbody ng-repeat="milkdetail in milkdetails.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)">
-                          <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>{{milkdetail.milkdetailcode}}</td>
-                            <td>{{milkdetail.product.productname}}</td>
-                            <td>{{milkdetail.product.id}}</td>
-                            <td>{{milkdetail.product.milkType.milkTypename}}</td>
-                            <td>{{milkdetail.product.milkBrand.milkbrandname}}</td>
-                            <td>{{milkdetail.product.targetUser.targetuser}}</td>
-                            <td>{{milkdetail.milkTaste.milktastename}}</td>
-                            <td>{{milkdetail.packagingunit.packagingunitname}}</td>
-                            <td>{{milkdetail.usageCapacity.capacity + " " + milkdetail.usageCapacity.unit}}</td>
-                            <td>{{milkdetail.price + " VNĐ"}}</td>
-                            <td style="text-align: center; vertical-align: middle; height: 50px;">
-                              <img src="{{milkdetail.imgUrl}}" alt="{{milkdetail.milkdetailcode}}" class="thumbnail" style="width: 50px; height: 50px;">
-                            </td>
-                            <td>{{ milkdetail.stockquantity > 0 ? "Còn hàng" : "Hết hàng" }}</td>
-                            <td>{{ milkdetail.expirationdate }}</td>
-                            <td>
-                              <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" onclick="myFunction(this)">
-                                <i class="fas fa-trash-alt"></i>
-                              </button>
-                              <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal" data-target="#ModalUP" ng-click="getMilkdetailById(milkdetail.id)">
-                                <i class="fas fa-edit"></i>
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                        
-                    </table>
-                    
-                  </div>
-                  <div class="pagination-controls d-flex justify-content-center align-items-center my-3">
-                    <button class="btn btn-primary mx-2"
-                            ng-disabled="currentPage === 1"
-                            ng-click="previousPage()">
-                        Previous
-                    </button>
-                    <span class="mx-2">Page {{currentPage}} of {{numberOfPages()}}</span>
-                    <button class="btn btn-primary mx-2"
-                            ng-disabled="currentPage === numberOfPages()"
-                            ng-click="nextPage()">
-                        Next
-                    </button>
-                </div>
-                
-            </div>
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="row element-button">
+          <div class="col-sm-2">
+            <a class="btn btn-add btn-sm" href="/form-add-san-pham" title="Thêm"><i class="fas fa-plus"></i> Tạo mới sản phẩm</a>
+          </div>
+          <div class="col-sm-2">
+            <a class="btn btn-delete btn-sm nhap-tu-file" type="button" title="Nhập" onclick="myFunction(this)"><i class="fas fa-file-upload"></i> Tải từ file</a>
+          </div>
+          <div class="col-sm-2">
+            <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick="myApp.printTable()"><i class="fas fa-print"></i> In dữ liệu</a>
+          </div>
+          <div class="col-sm-2">
+            <a class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép"><i class="fas fa-copy"></i> Sao chép</a>
+          </div>
+          <div class="col-sm-2">
+            <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+          </div>
+          <div class="col-sm-2">
+            <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" onclick="myFunction(this)"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
+          </div>
+          <div class="col-sm-2">
+            <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i class="fas fa-trash-alt"></i> Xóa tất cả </a>
+          </div>
         </div>
+
+        <table class="table table-hover table-bordered" id="sampleTable">
+          <thead>
+            <tr>
+              <th width="10"><input type="checkbox" id="all"></th>
+              <th>product</th>
+              <th>milkTaste</th>
+              <th>packagingunit</th>
+              <th>usageCapacity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="milkdetail in milkdetails.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)">
+              <td width="10"><input type="checkbox" name="check1" value="1"></td>
+
+              <td>{{ milkdetail.product.id }}</td>
+              <td>{{ milkdetail.milkTaste.id }}</td>
+              <td>{{ milkdetail.packagingunit.id }}</td>
+              <td>{{ milkdetail.usageCapacity.id }}</td>
+              
+              <td>
+                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ng-click="deleteMilkdetail(milkdetail.id)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal" data-target="#ModalUP" ng-click="getMilkdetailById(milkdetail.id)">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pagination-controls d-flex justify-content-center align-items-center my-3">
+          <button class="btn btn-primary mx-2" ng-disabled="currentPage === 1" ng-click="previousPage()">Previous</button>
+          <span class="mx-2">Page {{ currentPage }} of {{ numberOfPages() }}</span>
+          <button class="btn btn-primary mx-2" ng-disabled="currentPage === numberOfPages()" ng-click="nextPage()">Next</button>
+        </div>
+
+      </div>
     </div>
+  </div>
+</div>
+
   </main>
   <style>
     .thumbnail {
@@ -151,13 +117,7 @@
                    ng-click="changeImage()"
                    style="width: 100px; height: 100px; object-fit: cover;">
             </div>
-            
-            <!-- Mã sản phẩm -->
-            <div class="form-group col-md-6">
-              <label class="control-label">Mã sản phẩm</label>
-              <input class="form-control" type="text" ng-model="formData.milkdetailcode">
-            </div>
-            
+
             <!-- Sản phẩm -->
             <div class="form-group col-md-6">
               <label for="productStatus" class="control-label">Sản Phẩm</label>
@@ -193,7 +153,7 @@
             <!-- Ngày hết hạn -->
             <div class="form-group col-md-6">
               <label class="control-label">Ngày hết hạn</label>
-              <input class="form-control" type="text" ng-model="formData.expirationdate" required>
+              <input class="form-control" type="date" ng-model="formData.expirationdate" required>
             </div>
   
             <!-- Giá bán -->
@@ -232,6 +192,7 @@
          
           <br><br>
           <button class="btn btn-save" type="button" ng-click="updateMilkdetail(formData)">Lưu lại</button>
+          <button class="btn btn-save" type="button" ng-click="resetForm()">Cut</button>
           <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
           <br>
         </div>

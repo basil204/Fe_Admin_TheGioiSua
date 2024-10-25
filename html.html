@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS Example</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myController">
+
+<script>
+    // Define an AngularJS module
+    var app = angular.module('myApp', []);
+
+    // Define a controller
+    app.controller('myController', function($scope, $http) {
+        // Define a function to make the HTTP POST request
+        $scope.postData = function() {
+            var url = 'http://localhost:1234/api/Product/lst';  // Replace with your API endpoint
+            var body = {
+                key: 'eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjUiLCJzdWIiOiJtYW5obmUiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3Mjk2ODUxNDgsImV4cCI6MTczMjI3NzE0OH0.XcB_zZw6IgKy0z5GlMJP3GLI9Z3wQeCUBoDB95UgItc'  // Your data to send
+            };
+
+            // Step 1: Create HTTP headers
+            var config = {
+                headers: {
+                    'Authorization': 'Bearer JWT-token'  // Add your JWT token here
+                }
+            };
+
+            // Step 2: Make the HTTP POST request with headers
+            $http.get(url, body, config)
+                .then(function(response) {
+                    console.log('Success:', response.data);
+                }, function(error) {
+                    console.error('Error:', error);
+                });
+        };
+    });
+</script>
+
+<button ng-click="postData()">Send Data</button>
+
+</body>
+</html>
