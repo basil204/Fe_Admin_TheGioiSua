@@ -311,9 +311,18 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   };
 
   // Update Milk Detail
+  // Update Milk Detail
   $scope.updateMilkdetail = function () {
     const id = $scope.formData.id;
-    const updatedMilkdetail = {
+    const expirationDate = new Date($scope.formData.expirationdate);
+
+    // Validate if expiration date is a future date
+    if (expirationDate <= new Date()) {
+      $scope.showNotification("Ngày hết hạn phải ở trong tương lai", "error");
+      return; // Exit the function if validation fails
+    }
+
+    const milkDetail = {
       product: { id: $scope.formData.productId },
       milkTaste: { id: $scope.formData.milkTasteId },
       packagingunit: { id: $scope.formData.packagingunitId },
@@ -325,17 +334,43 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
       stockquantity: $scope.formData.stockquantity,
     };
 
-    $http
-      .put(`${API_BASES.MilkDetail}/update/${id}`, updatedMilkdetail, {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((response) => {
-        $scope.showNotification(response.data.message, "success");
-        $scope.getMilkdetails();
-        $scope.resetForm();
-      })
-      .catch((error) => handleApiError("Có lỗi xảy ra", error));
+    if (id) {
+      // Update existing milk detail
+      $http
+        .put(`${API_BASES.MilkDetail}/update/${id}`, milkDetail, {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            $scope.showNotification(response.data.message, "success");
+            $scope.getMilkdetails();
+            $scope.resetForm();
+          } else if (response.status === 400) {
+            $scope.showNotification(response.data.errors.message, "error");
+          }
+        })
+        .catch((error) => handleApiError("Có lỗi xảy ra", error));
+    } else {
+      // Add new milk detail
+      $http
+        .post(`${API_BASES.MilkDetail}/add`, milkDetail, {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            $scope.showNotification(response.data.message, "success");
+            if (response.data.message == "Thêm thành công") {
+              window.location.reload();
+              $scope.resetForm();
+            }
+          } else if (response.data.status === "error") {
+            $scope.showNotification(response.data.errors.message, "error");
+          }
+        })
+        .catch((error) => handleApiError("Có lỗi xảy ra", error));
+    }
   };
+
   $scope.resetForm = function () {
     $scope.formData = {};
   };
