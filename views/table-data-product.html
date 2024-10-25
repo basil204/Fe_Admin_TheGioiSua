@@ -33,7 +33,12 @@
             <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i class="fas fa-trash-alt"></i> Xóa tất cả </a>
           </div>
         </div>
-
+        <div class="row element-button">
+          <div class="col-sm-2">
+            <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#ModalUP"><i
+                class="fas fa-folder-plus"></i> Thêm thương hiệu</a>
+          </div>
+        </div>
         <table class="table table-hover table-bordered" id="sampleTable">
           <thead>
             <tr>
@@ -173,8 +178,6 @@
               <label class="control-label">Số lượng trong kho</label>
               <input class="form-control" type="number" ng-model="formData.stockquantity" required>
             </div>
-            
-            <!-- Hình ảnh sản phẩm -->
             <div class="form-group col-md-6">
               <label for="imageUpload" class="control-label">Hình ảnh sản phẩm</label>
               <div class="custom-file">
@@ -201,9 +204,5 @@
       </div>
     </div>
   </div>
-    
 
-  <!--
-  MODAL
-  -->
 </div>
