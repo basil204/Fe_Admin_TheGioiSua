@@ -18,6 +18,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
     deletedTargetUsers: [],
     usageCapacities: [],
     deletedUsageCapacities: [],
+    productss: [],
+    deletedProducts: [],
   };
 
   $scope.formData = {};
@@ -56,6 +58,7 @@ app.controller("MasterController", function ($scope, $http, $location) {
         $scope.data[targetProperty] = response.data.filter(
           (item) => item.status === status
         );
+        console.log(data[targetProperty] + response);
       },
       function (error) {
         $scope.showNotification("Không thể tải dữ liệu", "error");
@@ -78,6 +81,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
     fetchData("Targetuser", 0, "deletedTargetUsers");
     fetchData("Usagecapacity", 1, "usageCapacities");
     fetchData("Usagecapacity", 0, "deletedUsageCapacities");
+    fetchData("Product", 1, "products");
+    fetchData("Product", 0, "deletedProducts");
   };
 
   // Fetch an item by ID
@@ -88,6 +93,10 @@ app.controller("MasterController", function ($scope, $http, $location) {
     }).then(
       function (response) {
         $scope.formData = response.data;
+        $scope.formData.milkTaste = data.milkTaste.id;
+        $scope.formData.packagingunitId = data.packagingunit.id;
+        $scope.formData.usageCapacityIds = data.usageCapacity.id;
+        $scope.formData.productId = data.product.id;
       },
       function (error) {
         $scope.showNotification("Không thể tải dữ liệu", "error");

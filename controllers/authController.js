@@ -21,7 +21,7 @@ const handleLogin = async (req, res) => {
 
   try {
     const response = await axios.post(
-      "http://localhost:1234/api/user/authenticate",
+      "http://160.30.21.47:1234/api/user/authenticate",
       { username, password }
     );
 
