@@ -20,6 +20,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
     deletedUsageCapacities: [],
     products: [],
     deletedProducts: [],
+    invoices: [],
+    deletedInvoices: [],
   };
 
   $scope.formData = {};
@@ -82,6 +84,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
     fetchData("Usagecapacity", 0, "deletedUsageCapacities");
     fetchData("Product", 1, "products");
     fetchData("Product", 0, "deletedProducts");
+    fetchData("Invoice", 1, "invoices");
+    fetchData("Invoice", 0, "deletedInvoices");
   };
 
   // Fetch an item by ID
@@ -211,6 +215,7 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
     PackagingUnit: "http://localhost:3000/api/Packagingunit",
     UsageCapacity: "http://localhost:3000/api/Usagecapacity",
     Product: "http://localhost:3000/api/Products",
+    Invoice: "http://localhost:3000/api/Invoice",
   };
 
   // Utility Function to Handle API Errors
@@ -299,6 +304,12 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
       (data) => ($scope.products = data),
       "Không thể tải danh sách sản phẩm"
     );
+  $scope.getInvoice = () =>
+    fetchData(
+      `${API_BASES.Invoice}/lst`,
+      (data) => ($scope.invoices = data),
+      "Không thể tải danh sách sản phẩm"
+    );
 
   // Fetch Milk Detail by ID
   $scope.getMilkdetailById = function (id) {
@@ -349,4 +360,5 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   $scope.getUsagecapacitys();
   $scope.getProducts();
   $scope.getMilkdetails();
+  $scope.getInvoice();
 });
