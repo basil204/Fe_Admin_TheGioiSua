@@ -2,7 +2,7 @@ var app = angular.module("myApp1", ["ngRoute"]);
 
 app.controller("MasterController", function ($scope, $http, $location) {
   const token = localStorage.getItem("token");
-  const API_BASE_URL = "http://localhost:3000/api";
+  const API_BASE_URL = "http://localhost:3001/api";
 
   // Initial state
   $scope.data = {
@@ -18,8 +18,10 @@ app.controller("MasterController", function ($scope, $http, $location) {
     deletedTargetUsers: [],
     usageCapacities: [],
     deletedUsageCapacities: [],
-    productss: [],
+    products: [],
     deletedProducts: [],
+    invoices: [],
+    deletedInvoices: [],
   };
 
   $scope.formData = {};
@@ -32,7 +34,7 @@ app.controller("MasterController", function ($scope, $http, $location) {
     setTimeout(() => {
       $scope.clearNotification();
       if (!$scope.$$phase) $scope.$apply();
-    }, 3000);
+    }, 3001);
   };
 
   $scope.clearNotification = function () {
@@ -58,7 +60,6 @@ app.controller("MasterController", function ($scope, $http, $location) {
         $scope.data[targetProperty] = response.data.filter(
           (item) => item.status === status
         );
-        console.log(data[targetProperty] + response);
       },
       function (error) {
         $scope.showNotification("Không thể tải dữ liệu", "error");
@@ -83,6 +84,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
     fetchData("Usagecapacity", 0, "deletedUsageCapacities");
     fetchData("Product", 1, "products");
     fetchData("Product", 0, "deletedProducts");
+    fetchData("Invoice", 1, "invoices");
+    fetchData("Invoice", 0, "deletedInvoices");
   };
 
   // Fetch an item by ID
@@ -93,10 +96,9 @@ app.controller("MasterController", function ($scope, $http, $location) {
     }).then(
       function (response) {
         $scope.formData = response.data;
-        $scope.formData.milkTaste = data.milkTaste.id;
-        $scope.formData.packagingunitId = data.packagingunit.id;
-        $scope.formData.usageCapacityIds = data.usageCapacity.id;
-        $scope.formData.productId = data.product.id;
+        $scope.formData.selectedBrand = response.data.milkBrand.id;
+        $scope.formData.selectedType = response.data.milkType.id;
+        $scope.formData.selectedTargetuser = response.data.targetUser.id;
       },
       function (error) {
         $scope.showNotification("Không thể tải dữ liệu", "error");
@@ -172,6 +174,7 @@ app.controller("MasterController", function ($scope, $http, $location) {
   // Initialize all data on load
   $scope.getAllData();
 });
+
 app.controller("MilkDetailController", function ($scope, $http, $location) {
   // Notification Setup
   $scope.notification = { message: "", type: "" };
@@ -182,18 +185,14 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
     setTimeout(() => {
       $scope.clearNotification();
       $scope.$apply();
-    }, 3000);
-  };
-  $scope.clearNotification = function () {
-    $scope.notification.message = "";
-    $scope.notification.type = "";
+    }, 3001);
   };
 
   // Pagination Setup
   $scope.currentPage = 1;
   $scope.itemsPerPage = 5;
   $scope.milkdetails = []; // Initialize as an empty array to avoid undefined errors
-  $scope.formData = {};
+
   $scope.numberOfPages = () =>
     $scope.milkdetails
       ? Math.ceil($scope.milkdetails.length / $scope.itemsPerPage)
@@ -209,12 +208,14 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
 
   // API URLs
   const API_BASES = {
-    MilkDetail: "http://localhost:3000/api/Milkdetail",
-    MilkBrand: "http://localhost:3000/api/Milkbrand",
-    MilkTaste: "http://localhost:3000/api/Milktaste",
-    Product: "http://localhost:3000/api/Product",
-    PackagingUnit: "http://localhost:3000/api/Packagingunit",
-    UsageCapacity: "http://localhost:3000/api/Usagecapacity",
+    MilkDetail: "http://localhost:3001/api/Milkdetail",
+    MilkBrand: "http://localhost:3001/api/Milkbrand",
+    MilkTaste: "http://localhost:3001/api/Milktaste",
+    Product: "http://localhost:3001/api/Product",
+    PackagingUnit: "http://localhost:3001/api/Packagingunit",
+    UsageCapacity: "http://localhost:3001/api/Usagecapacity",
+    Product: "http://localhost:3001/api/Products",
+    Invoice: "http://localhost:3001/api/Invoice",
   };
 
   // Utility Function to Handle API Errors
@@ -303,6 +304,12 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
       (data) => ($scope.products = data),
       "Không thể tải danh sách sản phẩm"
     );
+  $scope.getInvoice = () =>
+    fetchData(
+      `${API_BASES.Invoice}/lst`,
+      (data) => ($scope.invoices = data),
+      "Không thể tải danh sách sản phẩm"
+    );
 
   // Fetch Milk Detail by ID
   $scope.getMilkdetailById = function (id) {
@@ -320,21 +327,13 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   };
 
   // Update Milk Detail
-  // Update Milk Detail
   $scope.updateMilkdetail = function () {
     const id = $scope.formData.id;
-    const expirationDate = new Date($scope.formData.expirationdate);
-
-    // Validate if expiration date is a future date
-    if (expirationDate <= new Date()) {
-      $scope.showNotification("Ngày hết hạn phải ở trong tương lai", "error");
-      return; // Exit the function if validation fails
-    }
-
-    const milkDetail = {
+    const updatedMilkdetail = {
+      milkdetailcode: $scope.formData.milkdetailcode,
       product: { id: $scope.formData.productId },
       milkTaste: { id: $scope.formData.milkTasteId },
-      packagingunit: { id: $scope.formData.packagingunitId },
+      packagingUnit: { id: $scope.formData.packagingunitId },
       usageCapacity: { id: $scope.formData.usageCapacityIds },
       expirationdate: $scope.formData.expirationdate,
       imgUrl: $scope.formData.imgUrl,
@@ -343,46 +342,17 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
       stockquantity: $scope.formData.stockquantity,
     };
 
-    if (id) {
-      // Update existing milk detail
-      $http
-        .put(`${API_BASES.MilkDetail}/update/${id}`, milkDetail, {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            $scope.showNotification(response.data.message, "success");
-            $scope.getMilkdetails();
-            $scope.resetForm();
-          } else if (response.status === 400) {
-            $scope.showNotification(response.data.errors.message, "error");
-          }
-        })
-        .catch((error) => handleApiError("Có lỗi xảy ra", error));
-    } else {
-      // Add new milk detail
-      $http
-        .post(`${API_BASES.MilkDetail}/add`, milkDetail, {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            $scope.showNotification(response.data.message, "success");
-            if (response.data.message == "Thêm thành công") {
-              window.location.reload();
-              $scope.resetForm();
-            }
-          } else if (response.data.status === "error") {
-            $scope.showNotification(response.data.errors.message, "error");
-          }
-        })
-        .catch((error) => handleApiError("Có lỗi xảy ra", error));
-    }
+    $http
+      .put(`${API_BASES.MilkDetail}/update/${id}`, updatedMilkdetail, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        $scope.showNotification(response.data.message, "success");
+        $scope.getMilkdetails();
+      })
+      .catch((error) => handleApiError("Có lỗi xảy ra", error));
   };
 
-  $scope.resetForm = function () {
-    $scope.formData = {};
-  };
   // Initialize Data
   $scope.getBrands();
   $scope.getTastes();
@@ -390,4 +360,5 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   $scope.getUsagecapacitys();
   $scope.getProducts();
   $scope.getMilkdetails();
+  $scope.getInvoice();
 });
