@@ -2,7 +2,7 @@ var app = angular.module("myApp1", ["ngRoute"]);
 
 app.controller("MasterController", function ($scope, $http, $location) {
   const token = localStorage.getItem("token");
-  const API_BASE_URL = "http://localhost:3001/api";
+  const API_BASE_URL = "http://160.30.21.47:3001/api";
 
   // Initial state
   $scope.data = {
@@ -229,6 +229,7 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
 
   // API URLs
   const API_BASES = {
+<<<<<<< HEAD
     MilkDetail: "http://localhost:3001/api/Milkdetail",
     MilkBrand: "http://localhost:3001/api/Milkbrand",
     MilkTaste: "http://localhost:3001/api/Milktaste",
@@ -236,6 +237,16 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
     PackagingUnit: "http://localhost:3001/api/Packagingunit",
     UsageCapacity: "http://localhost:3001/api/Usagecapacity",
     Invoice: "http://localhost:3001/api/Invoice",
+=======
+    MilkDetail: "http://160.30.21.47:3001/api/Milkdetail",
+    MilkBrand: "http://160.30.21.47:3001/api/Milkbrand",
+    MilkTaste: "http://160.30.21.47:3001/api/Milktaste",
+    Product: "http://160.30.21.47:3001/api/Product",
+    PackagingUnit: "http://160.30.21.47:3001/api/Packagingunit",
+    UsageCapacity: "http://160.30.21.47:3001/api/Usagecapacity",
+    Product: "http://160.30.21.47:3001/api/Product",
+    Invoice: "http://160.30.21.47:3001/api/Invoice",
+>>>>>>> c29f4005ebf4050f662393b8553a9ed5148e7a40
   };
 
   // Utility Function to Handle API Errors
