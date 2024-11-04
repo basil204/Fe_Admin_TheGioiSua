@@ -37,7 +37,7 @@
                     class="fas fa-folder-plus"></i> Thêm đơn vị đóng gói</a>
               </div>
             </div>
-            <form class="row">
+            <form class="row" >
               <div ng-if="notification.message" class="form-group col-md-12">
                 <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
                   {{ notification.message }}
@@ -61,7 +61,7 @@
               </div>
               <div class="form-group col-md-3 ">
                 <label for="exampleSelect1" class="control-label">Đối tượng sử dụng</label>
-                <select class="form-control" id="exampleSelect1" ng-model="formData.milkTaste">
+                <select class="form-control" id="exampleSelect1" ng-model="formData.selectedTargetuser">
                   <option ng-repeat="targetuser in data.targetUsers" ng-value="targetuser.id">{{targetuser.targetuser}}</option>
                 </select>
               </div>
@@ -123,7 +123,7 @@
                       </table>
                     </div>
                   </div>
-        
+                </form>
                   <!-- Deleted Usage Capacities Tab -->
                   <div class="tab-pane" id="deletedUProduct" role="tabpanel">
                     <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">

@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const API_BASE_URL = "http://160.30.21.47:1234/api/Product";
+const API_BASE_URL = "http://localhost:1234/api/Product";
 const getAuthToken = (req) => {
   return req.session.token;
 };
@@ -54,20 +54,34 @@ const deleteProduct = async (req, res) => {
 };
 
 const addProduct = async (req, res) => {
-  const { productcode, productname, milktype, milkbrand, targetuser } =
+  const { productname, selectedBrand, selectedType, selectedTargetuser } =
     req.body;
+  console.log(
+    "manhne " + productname,
+    selectedBrand,
+    selectedType,
+    selectedTargetuser
+  );
   const token = getAuthToken(req);
-
+  const datas = {
+    productname: productname,
+    milkType: {
+      id: selectedType,
+    },
+    milkBrand: {
+      id: selectedBrand,
+    },
+    targetUser: {
+      id: selectedTargetuser,
+    },
+  };
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/add`,
-      { productcode, productname, milktype, milkbrand, targetuser },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.post(`${API_BASE_URL}/add`, datas, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response);
     res.json(response.data);
   } catch (error) {
     console.error("Error adding Product:", error);
@@ -77,20 +91,51 @@ const addProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   const { id } = req.params;
-  const { productcode, productname, milktype, milkbrand, targetuser } =
+  const { productname, selectedBrand, selectedType, selectedTargetuser } =
     req.body;
-  const token = getAuthToken(req);
 
+  console.log(productname, selectedBrand, selectedType, selectedTargetuser);
+  const token = getAuthToken(req);
+  const datas = {
+    productname: productname,
+    milkType: {
+      id: selectedType,
+    },
+    milkBrand: {
+      id: selectedBrand,
+    },
+    targetUser: {
+      id: selectedTargetuser,
+    },
+  };
+  console.log(
+    "data truong =>" + datas.productname,
+    datas.milkType.id,
+    datas.targetUser.id,
+    datas.milkBrand.id
+  );
   try {
     const response = await axios.put(
       `${API_BASE_URL}/update/${id}`,
-      { productcode, productname, milktype, milkbrand, targetuser },
+      {
+        productname: productname,
+        milkType: {
+          id: selectedType,
+        },
+        milkBrand: {
+          id: selectedBrand,
+        },
+        targetUser: {
+          id: selectedTargetuser,
+        },
+      },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
+    console.log(response.data);
     res.json(response.data);
   } catch (error) {
     console.error("Error updating Product:", error);
