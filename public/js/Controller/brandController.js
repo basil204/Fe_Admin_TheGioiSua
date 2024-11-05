@@ -277,19 +277,15 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
       .catch((error) => handleApiError("Failed to upload image", error));
   };
 
-  // Fetch Data from APIs
   const fetchData = (url, successHandler, errorMessage) => {
-    // console.log(`Fetching data from: ${url}`); // Log fetch URL
     $http
       .get(url)
       .then((response) => {
-        // console.log(`Fetched data:`, response.data); // Log fetched data
         successHandler(response.data);
       })
       .catch((error) => handleApiError(errorMessage, error));
   };
 
-  // Fetching and Filtering Data Functions
   $scope.getMilkdetails = () => {
     fetchData(
       `${API_BASES.MilkDetail}/lst`,
@@ -379,22 +375,9 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   // Update Milk Detail
   $scope.updateMilkdetail = function () {
     const id = $scope.formData.id;
-    const updatedMilkdetail = {
-      milkdetailcode: $scope.formData.milkdetailcode,
-      product: { id: $scope.formData.productId },
-      milkTaste: { id: $scope.formData.milkTasteId },
-      packagingUnit: { id: $scope.formData.packagingunitId },
-      usageCapacity: { id: $scope.formData.usageCapacityIds },
-      expirationdate: $scope.formData.expirationdate,
-      imgUrl: $scope.formData.imgUrl,
-      price: $scope.formData.price,
-      description: $scope.formData.description,
-      stockquantity: $scope.formData.stockquantity,
-    };
 
-    // console.log("Updating milk detail:", updatedMilkdetail); // Log updated details
     $http
-      .put(`${API_BASES.MilkDetail}/update/${id}`, updatedMilkdetail, {
+      .put(`${API_BASES.MilkDetail}/update/${id}`, $scope.formData, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {

@@ -58,14 +58,32 @@ const addMilkdetail = async (req, res) => {
     milkTaste,
     packagingunit,
     usageCapacity,
-    expirationdate,
+    shelflifeofmilk,
     imgUrl,
     price,
     description,
     stockquantity,
   } = req.body;
   const token = getAuthToken(req);
-
+  const datas = {
+    product: {
+      id: product,
+    },
+    milkTaste: {
+      id: milkTaste,
+    },
+    packagingunit: {
+      id: packagingunit,
+    },
+    usageCapacity: {
+      id: usageCapacity,
+    },
+    shelflifeofmilk: shelflifeofmilk,
+    price: price,
+    imgUrl: imgUrl,
+    description: description,
+    stockquantity: stockquantity,
+  };
   try {
     const response = await axios.post(
       `${API_BASE_URL}/add`,
@@ -74,7 +92,7 @@ const addMilkdetail = async (req, res) => {
         milkTaste,
         packagingunit,
         usageCapacity,
-        expirationdate,
+        shelflifeofmilk,
         imgUrl,
         price,
         description,
@@ -96,38 +114,46 @@ const addMilkdetail = async (req, res) => {
 const updateMilkdetail = async (req, res) => {
   const { id } = req.params;
   const {
-    product,
-    milkTaste,
-    packagingunit,
-    usageCapacity,
-    expirationdate,
+    productId,
+    milkTasteId,
+    packagingunitId,
+    usageCapacityIds,
+    shelflifeofmilk,
     imgUrl,
     price,
     description,
     stockquantity,
   } = req.body;
+
+  const datas = {
+    product: {
+      id: productId,
+    },
+    milkTaste: {
+      id: milkTasteId,
+    },
+    packagingunit: {
+      id: packagingunitId,
+    },
+    usageCapacity: {
+      id: usageCapacityIds,
+    },
+    description: description,
+    shelflifeofmilk: shelflifeofmilk,
+    price: price,
+    imgUrl: imgUrl,
+    stockquantity: stockquantity,
+  };
+  console.log(datas);
+
   const token = getAuthToken(req);
 
   try {
-    const response = await axios.put(
-      `${API_BASE_URL}/update/${id}`,
-      {
-        product,
-        milkTaste,
-        packagingunit,
-        usageCapacity,
-        expirationdate,
-        imgUrl,
-        price,
-        description,
-        stockquantity,
+    const response = await axios.put(`${API_BASE_URL}/update/${id}`, datas, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    });
     res.json(response.data);
   } catch (error) {
     console.error("Error updating Milkdetail:", error);
