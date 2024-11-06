@@ -8,7 +8,7 @@ const authController = require("./controllers/authController");
 const router = require("./Routes/routers");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -22,7 +22,7 @@ app.use(
   })
 );
 
-app.use(router)
+app.use(router);
 app.get("/login", authController.getLoginPage);
 app.post("/login", authController.handleLogin);
 // Logout

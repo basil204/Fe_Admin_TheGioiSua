@@ -2,7 +2,7 @@ var app = angular.module("myApp1", ["ngRoute"]);
 
 app.controller("MasterController", function ($scope, $http, $location) {
   const token = localStorage.getItem("token");
-  const API_BASE_URL = "http://localhost:3000/api";
+  const API_BASE_URL = "http://localhost:3001/api";
 
   // Initial state
   $scope.data = {
@@ -29,12 +29,13 @@ app.controller("MasterController", function ($scope, $http, $location) {
 
   // Show notification
   $scope.showNotification = function (message, type) {
+    // console.log(`Showing notification: ${message}, type: ${type}`); // Log notification details
     $scope.notification.message = message;
     $scope.notification.type = type;
     setTimeout(() => {
       $scope.clearNotification();
       if (!$scope.$$phase) $scope.$apply();
-    }, 3000);
+    }, 3001);
   };
 
   $scope.clearNotification = function () {
@@ -46,17 +47,51 @@ app.controller("MasterController", function ($scope, $http, $location) {
   function handleError(error) {
     console.error("Error:", error);
     if (error.status === 401) {
+      // console.log("Redirecting to login due to unauthorized access"); // Log redirection
       $location.path("/login");
     }
   }
+  $scope.uploadImage = function (files) {
+    const imgbbApiKey = "588779c93c7187148b4fa9b7e9815da9";
+    const file = files[0];
 
+    if (!file) {
+      // console.log("No file selected for upload"); // Log no file selection
+      return $scope.showNotification("No file selected", "error");
+    }
+
+    const formData = new FormData();
+    formData.append("key", imgbbApiKey);
+    formData.append("image", file);
+
+    $http
+      .post("https://api.imgbb.com/1/upload", formData, {
+        headers: { "Content-Type": undefined },
+        transformRequest: angular.identity,
+      })
+      .then((response) => {
+        const imageUrl = response.data?.data?.url;
+        if (imageUrl) {
+          $scope.formData.imgUrl = imageUrl;
+          $scope.showNotification("Image uploaded successfully", "success");
+          // console.log("Image uploaded successfully:", imageUrl); // Log successful upload
+        } else {
+          $scope.showNotification("Failed to upload image", "error");
+        }
+      })
+      .catch((error) => handleApiError("Failed to upload image", error));
+  };
   // Fetch data for a specific endpoint and filter by status
   function fetchData(endpoint, status, targetProperty) {
+    // console.log(
+    //   `Fetching data from ${API_BASE_URL}/${endpoint}/lst with status ${status}`
+    // ); // Log fetch attempt
     $http({
       method: "GET",
       url: `${API_BASE_URL}/${endpoint}/lst`,
     }).then(
       function (response) {
+        // console.log(`Fetched data:`, response.data); // Log fetched data
         $scope.data[targetProperty] = response.data.filter(
           (item) => item.status === status
         );
@@ -70,6 +105,7 @@ app.controller("MasterController", function ($scope, $http, $location) {
 
   // Fetch all required data
   $scope.getAllData = function () {
+    // console.log("Fetching all data..."); // Log data fetching start
     fetchData("Milkbrand", 1, "brands");
     fetchData("Milkbrand", 0, "deletedBrands");
     fetchData("Milktaste", 1, "tastes");
@@ -90,11 +126,13 @@ app.controller("MasterController", function ($scope, $http, $location) {
 
   // Fetch an item by ID
   $scope.getItemById = function (endpoint, id) {
+    // console.log(`Fetching item by ID: ${id} from ${endpoint}`); // Log ID fetch attempt
     $http({
       method: "GET",
       url: `${API_BASE_URL}/${endpoint}/${id}`,
     }).then(
       function (response) {
+        // console.log(`Fetched item data:`, response.data); // Log fetched item data
         $scope.formData = response.data;
         $scope.formData.selectedBrand = response.data.milkBrand.id;
         $scope.formData.selectedType = response.data.milkType.id;
@@ -109,6 +147,9 @@ app.controller("MasterController", function ($scope, $http, $location) {
 
   // Delete or rollback an item
   $scope.deleteOrRollbackItem = function (endpoint, id, rollback = false) {
+    // console.log(
+    //   `Attempting to ${rollback ? "rollback" : "delete"} item with ID: ${id}`
+    // ); // Log delete/rollback attempt
     $http({
       method: "DELETE",
       url: `${API_BASE_URL}/${endpoint}/${id}`,
@@ -135,10 +176,11 @@ app.controller("MasterController", function ($scope, $http, $location) {
 
   // Add or update an item
   $scope.addOrUpdateItem = function (endpoint) {
-    const isUpdating = !!$scope.formData.id;
+    // console.log($scope.formData);
+    const isUpdating = !!$scope.formData.id; // Check if updating
     const apiUrl = isUpdating
       ? `${API_BASE_URL}/${endpoint}/update/${$scope.formData.id}`
-      : `${API_BASE_URL}/${endpoint}/add`;
+      : `${API_BASE_URL}/${endpoint}/add`; // Define URL based on action
 
     const config = {
       headers: {
@@ -148,7 +190,7 @@ app.controller("MasterController", function ($scope, $http, $location) {
 
     const request = isUpdating
       ? $http.put(apiUrl, $scope.formData, config)
-      : $http.post(apiUrl, $scope.formData, config);
+      : $http.post(apiUrl, $scope.formData, config); // Choose the method based on action
 
     request.then(
       function () {
@@ -156,8 +198,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
           isUpdating ? "Cập nhật thành công" : "Thêm mới thành công",
           "success"
         );
-        $scope.getAllData();
-        $scope.formData = {};
+        $scope.getAllData(); // Refresh data
+        $scope.resetForm(); // Reset form after submission
       },
       function (error) {
         $scope.showNotification("Không thể thêm/cập nhật", "error");
@@ -168,6 +210,7 @@ app.controller("MasterController", function ($scope, $http, $location) {
 
   // Reset the form data
   $scope.resetForm = function () {
+    // console.log("Resetting form data"); // Log form reset
     $scope.formData = {};
   };
 
@@ -180,12 +223,13 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   $scope.notification = { message: "", type: "" };
 
   $scope.showNotification = function (message, type) {
+    // console.log(`Showing notification: ${message}, type: ${type}`); // Log notification details
     $scope.notification.message = message;
     $scope.notification.type = type;
     setTimeout(() => {
       $scope.clearNotification();
       $scope.$apply();
-    }, 3000);
+    }, 3001);
   };
 
   // Pagination Setup
@@ -199,23 +243,29 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
       : 0;
 
   $scope.previousPage = () => {
-    if ($scope.currentPage > 1) $scope.currentPage--;
+    if ($scope.currentPage > 1) {
+      $scope.currentPage--;
+      // console.log(`Moved to previous page: ${$scope.currentPage}`); // Log page change
+    }
   };
 
   $scope.nextPage = () => {
-    if ($scope.currentPage < $scope.numberOfPages()) $scope.currentPage++;
+    if ($scope.currentPage < $scope.numberOfPages()) {
+      $scope.currentPage++;
+      // console.log(`Moved to next page: ${$scope.currentPage}`); // Log page change
+    }
   };
 
   // API URLs
   const API_BASES = {
-    MilkDetail: "http://localhost:3000/api/Milkdetail",
-    MilkBrand: "http://localhost:3000/api/Milkbrand",
-    MilkTaste: "http://localhost:3000/api/Milktaste",
-    Product: "http://localhost:3000/api/Product",
-    PackagingUnit: "http://localhost:3000/api/Packagingunit",
-    UsageCapacity: "http://localhost:3000/api/Usagecapacity",
-    Product: "http://localhost:3000/api/Products",
-    Invoice: "http://localhost:3000/api/Invoice",
+    MilkDetail: "http://localhost:3001/api/Milkdetail",
+    MilkBrand: "http://localhost:3001/api/Milkbrand",
+    MilkTaste: "http://localhost:3001/api/Milktaste",
+    Product: "http://localhost:3001/api/Product",
+    PackagingUnit: "http://localhost:3001/api/Packagingunit",
+    UsageCapacity: "http://localhost:3001/api/Usagecapacity",
+    Product: "http://localhost:3001/api/Product",
+    Invoice: "http://localhost:3001/api/Invoice",
   };
 
   // Utility Function to Handle API Errors
@@ -229,7 +279,10 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
     const imgbbApiKey = "588779c93c7187148b4fa9b7e9815da9";
     const file = files[0];
 
-    if (!file) return $scope.showNotification("No file selected", "error");
+    if (!file) {
+      // console.log("No file selected for upload"); // Log no file selection
+      return $scope.showNotification("No file selected", "error");
+    }
 
     const formData = new FormData();
     formData.append("key", imgbbApiKey);
@@ -245,6 +298,7 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
         if (imageUrl) {
           $scope.formData.imgUrl = imageUrl;
           $scope.showNotification("Image uploaded successfully", "success");
+          // console.log("Image uploaded successfully:", imageUrl); // Log successful upload
         } else {
           $scope.showNotification("Failed to upload image", "error");
         }
@@ -252,15 +306,15 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
       .catch((error) => handleApiError("Failed to upload image", error));
   };
 
-  // Fetch Data from APIs
   const fetchData = (url, successHandler, errorMessage) => {
     $http
       .get(url)
-      .then((response) => successHandler(response.data))
+      .then((response) => {
+        successHandler(response.data);
+      })
       .catch((error) => handleApiError(errorMessage, error));
   };
 
-  // Fetching and Filtering Data Functions
   $scope.getMilkdetails = () => {
     fetchData(
       `${API_BASES.MilkDetail}/lst`,
@@ -269,6 +323,7 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
         $scope.totalPages = Math.ceil(
           $scope.milkdetails.length / $scope.itemsPerPage
         );
+        // console.log(`Milk details fetched:`, $scope.milkdetails); // Log milk details
       },
       "Không thể tải danh sách sản phẩm"
     );
@@ -277,42 +332,61 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   $scope.getBrands = () =>
     fetchData(
       `${API_BASES.MilkBrand}/lst`,
-      (data) => ($scope.brands = data),
+      (data) => {
+        $scope.brands = data;
+        // console.log("Brands fetched:", $scope.brands); // Log fetched brands
+      },
       "Không thể tải danh sách thương hiệu"
     );
   $scope.getTastes = () =>
     fetchData(
       `${API_BASES.MilkTaste}/lst`,
-      (data) => ($scope.tastes = data),
+      (data) => {
+        $scope.tastes = data;
+        // console.log("Tastes fetched:", $scope.tastes); // Log fetched tastes
+      },
       "Không thể tải danh sách mùi vị"
     );
   $scope.getPackagingunits = () =>
     fetchData(
       `${API_BASES.PackagingUnit}/lst`,
-      (data) => ($scope.packagingunits = data),
+      (data) => {
+        $scope.packagingunits = data;
+        // console.log("Packaging units fetched:", $scope.packagingunits); // Log fetched packaging units
+      },
       "Không thể tải danh sách loại bao bì"
     );
   $scope.getUsagecapacitys = () =>
     fetchData(
       `${API_BASES.UsageCapacity}/lst`,
-      (data) => ($scope.usagecapacitys = data),
+      (data) => {
+        $scope.usagecapacitys = data;
+        // console.log("Usage capacities fetched:", $scope.usagecapacitys); // Log fetched usage capacities
+      },
       "Không thể tải danh sách công suất"
     );
   $scope.getProducts = () =>
     fetchData(
       `${API_BASES.Product}/lst`,
-      (data) => ($scope.products = data),
+      (data) => {
+        $scope.products = data;
+        // console.log("Products fetched:", $scope.products); // Log fetched products
+      },
       "Không thể tải danh sách sản phẩm"
     );
   $scope.getInvoice = () =>
     fetchData(
       `${API_BASES.Invoice}/lst`,
-      (data) => ($scope.invoices = data),
+      (data) => {
+        $scope.invoices = data;
+        // console.log("Invoices fetched:", $scope.invoices); // Log fetched invoices
+      },
       "Không thể tải danh sách sản phẩm"
     );
 
   // Fetch Milk Detail by ID
   $scope.getMilkdetailById = function (id) {
+    // console.log(`Fetching milk detail by ID: ${id}`); // Log ID fetch attempt
     fetchData(
       `${API_BASES.MilkDetail}/${id}`,
       (data) => {
@@ -321,6 +395,7 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
         $scope.formData.packagingunitId = data.packagingunit.id;
         $scope.formData.usageCapacityIds = data.usageCapacity.id;
         $scope.formData.productId = data.product.id;
+        // console.log("Fetched milk detail data:", $scope.formData); // Log fetched milk detail
       },
       "Không thể tải chi tiết sản phẩm"
     );
@@ -329,21 +404,9 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   // Update Milk Detail
   $scope.updateMilkdetail = function () {
     const id = $scope.formData.id;
-    const updatedMilkdetail = {
-      milkdetailcode: $scope.formData.milkdetailcode,
-      product: { id: $scope.formData.productId },
-      milkTaste: { id: $scope.formData.milkTasteId },
-      packagingUnit: { id: $scope.formData.packagingunitId },
-      usageCapacity: { id: $scope.formData.usageCapacityIds },
-      expirationdate: $scope.formData.expirationdate,
-      imgUrl: $scope.formData.imgUrl,
-      price: $scope.formData.price,
-      description: $scope.formData.description,
-      stockquantity: $scope.formData.stockquantity,
-    };
 
     $http
-      .put(`${API_BASES.MilkDetail}/update/${id}`, updatedMilkdetail, {
+      .put(`${API_BASES.MilkDetail}/update/${id}`, $scope.formData, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
@@ -362,3 +425,104 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   $scope.getMilkdetails();
   $scope.getInvoice();
 });
+
+app.controller("ChartController", [
+  "$scope",
+  function ($scope) {
+    $scope.chartData = {
+      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      datasets: [
+        {
+          label: "# of Votes",
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    $scope.initPieChart = function () {
+      const ctx = document.getElementById("pieChart");
+      new Chart(ctx, {
+        type: "pie",
+        data: $scope.chartData,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "top",
+            },
+            title: {
+              display: true,
+              text: "Biểu Đồ Hình Cầu Số Phiếu",
+            },
+          },
+        },
+      });
+    };
+
+    $scope.initBarChart = function () {
+      const ctx = document.getElementById("barChart");
+      new Chart(ctx, {
+        type: "bar",
+        data: $scope.chartData,
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+          plugins: {
+            legend: {
+              position: "top",
+            },
+            title: {
+              display: true,
+              text: "Biểu Đồ Cột Số Phiếu",
+            },
+          },
+        },
+      });
+    };
+
+    $scope.initDoughnutChart = function () {
+      const ctx = document.getElementById("doughnutChart");
+      new Chart(ctx, {
+        type: "doughnut",
+        data: $scope.chartData,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "top",
+            },
+            title: {
+              display: true,
+              text: "Biểu Đồ Doughnut Số Phiếu",
+            },
+          },
+        },
+      });
+    };
+
+    $scope.initPieChart();
+    $scope.initBarChart();
+    $scope.initDoughnutChart();
+  },
+]);

@@ -37,7 +37,7 @@
                     class="fas fa-folder-plus"></i> Thêm đơn vị đóng gói</a>
               </div>
             </div>
-            <form class="row">
+            <form class="row" >
               <div ng-if="notification.message" class="form-group col-md-12">
                 <div class="alert" ng-class="{'alert-success': notification.type === 'success', 'alert-danger': notification.type === 'error'}">
                   {{ notification.message }}
@@ -80,89 +80,87 @@
                 </div>
   
               </div>
+              <div class="form-group col-12">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#activeProduct" role="tab">Danh sách sản phẩm</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#deletedUProduct" role="tab">Đã xóa</a>
+                  </li>
+                </ul>
+                
+                <div class="tab-content">
+                  <!-- Active Usage Capacities Tab -->
+                  <div class="tab-pane active" id="activeProduct" role="tabpanel">
+                    <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Mã sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Loại sữa</th>
+                            <th>Thương hiệu</th>
+                            <th>Đối tượng sử dụng</th>
+                            <th>Chức năng</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="product in data.products">
+                            <td>{{ product.id }}</td>
+                            <td>{{ product.productCode }}</td>
+                            <td>{{ product.productname }}</td>
+                            <td>{{ product.milkType.milkTypename }}</td>
+                            <td>{{ product.milkBrand.milkbrandname }}</td>
+                            <td>{{ product.targetUser.targetuser }}</td>
+                            <td>
+                              <button ng-click="deleteOrRollbackItem('Product', product.id)" class="btn btn-danger btn-sm">Xóa</button>
+                              <button ng-click="getItemById('Product', product.id)" class="btn btn-primary btn-sm">Chỉnh sửa</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </form>
+                  <!-- Deleted Usage Capacities Tab -->
+                  <div class="tab-pane" id="deletedUProduct" role="tabpanel">
+                    <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                      <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                              <th>ID</th>
+                              <th>Mã sản phẩm</th>
+                              <th>Tên sản phẩm</th>
+                              <th>Loại sữa</th>
+                              <th>Thương hiệu</th>
+                              <th>Đối tượng sử dụng</th>
+                              <th>Chức năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="product in data.deletedProducts">
+                            <td>{{ product.id }}</td>
+                            <td>{{ product.productCode }}</td>
+                            <td>{{ product.productname }}</td>
+                            <td>{{ product.milkType.milkTypename }}</td>
+                            <td>{{ product.milkBrand.milkbrandname }}</td>
+                            <td>{{ product.targetUser.targetuser }}</td>
+                            <td>
+                              <button ng-click="deleteOrRollbackItem('Product', product.id, true)" class="btn btn-success btn-sm">Khôi phục</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> 
+              </div>
+              <div class="form-group col-3"><button class="btn btn-save" type="button" ng-click="addOrUpdateItem('Product')">Lưu lại</button>
+                <a class="btn btn-cancel" href="table-data-product.html">Hủy bỏ</a></div>
       <div>
-           <!-- Tab navigation -->
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#activeProduct" role="tab">Danh sách sản phẩm</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#deletedUProduct" role="tab">Đã xóa</a>
-          </li>
-        </ul>
 
-        <!-- Tab panes -->
-        <div class="tab-content">
-          <!-- Active Usage Capacities Tab -->
-          <div class="tab-pane active" id="activeProduct" role="tabpanel">
-            <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Mã sản phẩm</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Loại sữa</th>
-                    <th>Thương hiệu</th>
-                    <th>Đối tượng sử dụng</th>
-                    <th>Chức năng</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="product in data.products">
-                    <td>{{ product.id }}</td>
-                    <td>{{ product.productCode }}</td>
-                    <td>{{ product.productname }}</td>
-                    <td>{{ product.milkType.milkTypename }}</td>
-                    <td>{{ product.milkBrand.milkbrandname }}</td>
-                    <td>{{ product.targetUser.targetuser }}</td>
-                    <td>
-                      <button ng-click="deleteOrRollbackItem('Product', product.id)" class="btn btn-danger btn-sm">Xóa</button>
-                      <button ng-click="getItemById('Product', product.id)" class="btn btn-primary btn-sm">Chỉnh sửa</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Deleted Usage Capacities Tab -->
-          <div class="tab-pane" id="deletedUProduct" role="tabpanel">
-            <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
-              <table class="table table-bordered">
-                <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Mã sản phẩm</th>
-                      <th>Tên sản phẩm</th>
-                      <th>Loại sữa</th>
-                      <th>Thương hiệu</th>
-                      <th>Đối tượng sử dụng</th>
-                      <th>Chức năng</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="product in data.deletedProducts">
-                    <td>{{ product.id }}</td>
-                    <td>{{ product.productCode }}</td>
-                    <td>{{ product.productname }}</td>
-                    <td>{{ product.milkType.milkTypename }}</td>
-                    <td>{{ product.milkBrand.milkbrandname }}</td>
-                    <td>{{ product.targetUser.targetuser }}</td>
-                    <td>
-                      <button ng-click="deleteOrRollbackItem('Product', product.id, true)" class="btn btn-success btn-sm">Khôi phục</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>  
-      </div>  
-          </div>
-          <button class="btn btn-save" type="button" ng-click="addOrUpdateItem('Product')">Lưu lại</button>
-          <a class="btn btn-cancel" href="table-data-product.html">Hủy bỏ</a>
-        </div>
   </main>
   
   

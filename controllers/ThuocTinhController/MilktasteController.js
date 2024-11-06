@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const API_BASE_URL = "http://localhost:1234/api/Milktaste";
+const API_BASE_URL = "http://160.30.21.47:1234/api/Milktaste";
 const getAuthToken = (req) => {
   return req.session.token;
 };
