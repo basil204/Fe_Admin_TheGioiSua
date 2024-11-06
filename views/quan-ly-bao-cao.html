@@ -1,4 +1,5 @@
-
+<div ng-app="myApp1" ng-controller="ChartController">
+    
 <main class="app-content">
     <div class="row">
       <div class="col-md-12">
@@ -286,20 +287,33 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-12">
+                <div class="app-title">
+                    <ul class="app-breadcrumb breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><b>Báo cáo doanh thu</b></a></li>
+                    </ul>
+                    <div id="clock"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
             <div class="col-md-6">
-                <div class="tile">
-                    <h3 class="tile-title">DỮ LIỆU HÀNG THÁNG</h3>
+                <div class="tile shadow-sm p-3 bg-white rounded">
+                    <h3 class="tile-title text-center">Dữ Liệu Hàng Tháng</h3>
                     <div class="embed-responsive embed-responsive-16by9">
-                        <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
+                        <canvas id="pieChart" class="embed-responsive-item"></canvas>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="tile">
-                    <h3 class="tile-title">THỐNG KÊ DOANH SỐ</h3>
+                <div class="tile shadow-sm p-3 bg-white rounded">
+                    <h3 class="tile-title text-center">Thống Kê Doanh Số</h3>
                     <div class="embed-responsive embed-responsive-16by9">
-                        <canvas class="embed-responsive-item" id="barChartDemo"></canvas>
+                        <canvas id="barChart" class="embed-responsive-item"></canvas>
                     </div>
                 </div>
             </div>
         </div>
+        
+</div>
