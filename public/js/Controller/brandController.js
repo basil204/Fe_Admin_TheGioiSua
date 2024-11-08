@@ -2,7 +2,7 @@ var app = angular.module("myApp1", ["ngRoute"]);
 
 app.controller("MasterController", function ($scope, $http, $location) {
   const token = localStorage.getItem("token");
-  const API_BASE_URL = "http://localhost:3001/api";
+  const API_BASE_URL = "http://160.30.21.47:3001/api";
 
   // Initial state
   $scope.data = {
