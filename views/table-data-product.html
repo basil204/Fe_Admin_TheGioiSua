@@ -39,51 +39,53 @@
                 class="fas fa-folder-plus"></i> Thêm thương hiệu</a>
           </div>
         </div>
-        <table class="table table-hover table-bordered" id="sampleTable">
-          <thead>
-            <tr>
-              <th width="10"><input type="checkbox" id="all"></th>
-              <th>Mã sản phẩm</th>
-              <th>Tên sản phẩm</th>
-              <th>Loại Sản Phẩm</th>
-              <th>Hãng</th>
-              <th>Độ Tuổi</th>
-              <th>Hương Vị</th>
-              <th>Loại</th>
-              <th>Giá Tiền</th>
-              <th>Dung tích</th>
-              <th>Hình ảnh</th>
-              <th>Trạng thái</th>
-              <th>Ngày Tạo</th>
-              <th>Chức Năng</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="milkdetail in milkdetails.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)">
-              <td width="10"><input type="checkbox" name="check1" value="1"></td>
-
-              <td>{{milkdetail.milkdetailcode}}</td>
-              <td>{{milkdetail.product.productname}}</td>
-              <td>{{milkdetail.product.milkType.milkTypename}}</td>
-              <td>{{milkdetail.product.milkBrand.milkbrandname}}</td>
-              <td>{{milkdetail.product.targetUser.targetuser}}</td>
-              <td>{{milkdetail.milkTaste.milktastename}}</td>
-              <td>{{milkdetail.packagingunit.packagingunitname}}</td>
-              <td>{{milkdetail.price + " VNĐ"}}</td>
-              <td>{{milkdetail.usageCapacity.capacity + " " + milkdetail.usageCapacity.unit}}</td>
-              <td><img src="{{milkdetail.imgUrl}}" alt="Milk Image" style="width: 50px; height: 50px;" /></td>
-              <td>{{ milkdetail.status == 1 ? "Đang bán" : "Ngừng bán" }}</td>
-              <td>
-                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ng-click="deleteMilkdetail(milkdetail.id)">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal" data-target="#ModalUP" ng-click="getMilkdetailById(milkdetail.id)">
-                  <i class="fas fa-edit"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div style="overflow-x: auto; margin-top: 10px;">
+          <table class="table table-hover table-bordered" id="sampleTable" style="width: 100%;">
+            <thead>
+              <tr>
+                <th width="10"><input type="checkbox" id="all"></th>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Loại Sản Phẩm</th>
+                <th>Hãng</th>
+                <th>Độ Tuổi</th>
+                <th>Hương Vị</th>
+                <th>Loại</th>
+                <th>Giá Tiền</th>
+                <th>Dung tích</th>
+                <th>Hình ảnh</th>
+                <th>Trạng thái</th>
+                <th>Ngày Tạo</th>
+                <th>Chức Năng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="milkdetail in milkdetails.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)">
+                <td width="10"><input type="checkbox" name="check1" value="1"></td>
+                <td>{{milkdetail.milkdetailcode}}</td>
+                <td>{{milkdetail.product.productname}}</td>
+                <td>{{milkdetail.product.milkType.milkTypename}}</td>
+                <td>{{milkdetail.product.milkBrand.milkbrandname}}</td>
+                <td>{{milkdetail.product.targetUser.targetuser}}</td>
+                <td>{{milkdetail.milkTaste.milktastename}}</td>
+                <td>{{milkdetail.packagingunit.packagingunitname}}</td>
+                <td>{{milkdetail.price + " VNĐ"}}</td>
+                <td>{{milkdetail.usageCapacity.capacity + " " + milkdetail.usageCapacity.unit}}</td>
+                <td><img src="{{milkdetail.imgUrl}}" alt="Milk Image" style="width: 50px; height: 50px;" /></td>
+                <td>{{ milkdetail.status == 1 ? "Đang bán" : "Ngừng bán" }}</td>
+                <td>
+                  <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ng-click="deleteMilkdetail(milkdetail.id)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                  <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal" data-target="#ModalUP" ng-click="getMilkdetailById(milkdetail.id)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
 
         <div class="pagination-controls d-flex justify-content-center align-items-center my-3">
           <button class="btn btn-primary mx-2" ng-disabled="currentPage === 1" ng-click="previousPage()">Previous</button>
