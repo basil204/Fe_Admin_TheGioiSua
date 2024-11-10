@@ -98,6 +98,14 @@ const updateVoucher = async (req, res) => {
     maxamount,
     usagecount,
   } = req.body;
+  console.log(
+    vouchercode,
+    startdate,
+    enddate,
+    discountpercentage,
+    maxamount,
+    usagecount
+  );
   const token = getAuthToken(req);
 
   try {

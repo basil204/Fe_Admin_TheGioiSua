@@ -22,6 +22,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
     deletedProducts: [],
     invoices: [],
     deletedInvoices: [],
+    vouchers: [],
+    deletedVouchers: [],
   };
 
   $scope.formData = {};
@@ -120,6 +122,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
     fetchData("Usagecapacity", 0, "deletedUsageCapacities");
     fetchData("Product", 1, "products");
     fetchData("Product", 0, "deletedProducts");
+    fetchData("Voucher", 1, "vouchers");
+    fetchData("Voucher", 0, "deletedVouchers");
     // fetchData("Invoice", 1, "invoices");
     // fetchData("Invoice", 0, "deletedInvoices");
   };
@@ -137,6 +141,8 @@ app.controller("MasterController", function ($scope, $http, $location) {
         $scope.formData.selectedBrand = response.data.milkBrand.id;
         $scope.formData.selectedType = response.data.milkType.id;
         $scope.formData.selectedTargetuser = response.data.targetUser.id;
+        $scope.formData.startdate = new Date().toISOString().substring(0, 10); // Chuyển đổi thành 'YYYY-MM-DD'
+        $scope.formData.enddate = new Date().toISOString().substring(0, 10); // Tương tự cho ngày kết thúc
       },
       function (error) {
         $scope.showNotification("Không thể tải dữ liệu", "error");
@@ -265,6 +271,7 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
     PackagingUnit: "http://localhost:3001/api/Packagingunit",
     UsageCapacity: "http://localhost:3001/api/Usagecapacity",
     Product: "http://localhost:3001/api/Product",
+    Product: "http://localhost:3001/api/Voucher",
     // Invoice: "http://localhost:3001/api/Invoice",
   };
 
@@ -374,6 +381,15 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
       },
       "Không thể tải danh sách sản phẩm"
     );
+  $scope.getVouchers = () =>
+    fetchData(
+      `${API_BASES.Voucher}/lst`,
+      (data) => {
+        $scope.vouchers = data;
+        console.log("Vouchers fetched:", $scope.vouchers); // Log fetched products
+      },
+      "Không thể tải danh sách sản phẩm"
+    );
   // $scope.getInvoice = () =>
   //   fetchData(
   //     `${API_BASES.Invoice}/lst`,
@@ -423,6 +439,7 @@ app.controller("MilkDetailController", function ($scope, $http, $location) {
   $scope.getUsagecapacitys();
   $scope.getProducts();
   $scope.getMilkdetails();
+  $scope.getVouchers();
   // $scope.getInvoice();
 });
 
